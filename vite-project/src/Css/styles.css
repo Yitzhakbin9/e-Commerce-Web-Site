@@ -1,0 +1,57 @@
+.page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e5e5e5;
+}
+
+.box {
+  width: 900px;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.categories {
+  width: 400px;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+
+/* סגנון לטבלה */
+.table {
+  border: 3px solid #000;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+  border-collapse: collapse; /* מאחד את כל הגבולות */
+  width: fit-content;        /* טבלה לא תימתח לאורך כל הדף */
+  margin: 0 auto;            /* מרכז את הטבלה */
+}
+
+.table th,
+.table td {
+  border: 1px solid #000;
+  padding: 8px 12px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.add-category-row {
+  display: flex;
+  align-items: center; /* יישור לגובה */
+  gap: 16px;           /* רווח יפה ביניהם */
+  margin-top: 20px;
+}

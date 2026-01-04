@@ -1,0 +1,67 @@
+// REPO - basic crud funcs with firebase
+
+import firebaseCrudFunctions from '../Firebase/firebaseCrudFunctions';
+
+const COLLECTION_NAME = "products"
+
+
+// Get All
+
+const getAllProducts = (callback) => {
+  return firebaseCrudFunctions.getAll(callback, COLLECTION_NAME);
+};
+
+  // const getAllProducts = () => {
+  //   // const prods = firebaseCrudFunctions.getAll("products");
+  //   const prods = firebaseCrudFunctions.getAll(() => {}, "products");
+  //     console.log(prods)
+  //     return prods;
+  // };
+
+
+const addProduct = (doc) => {
+  // const doc = {categoryName : name , Items: []}
+  return firebaseCrudFunctions.add(COLLECTION_NAME , doc);
+};
+
+
+
+export default {
+  getAllProducts,
+  addProduct
+};
+
+
+
+
+
+// // Get By ID
+// const getPersonById = (id) => {
+//   return Person.findById(id);
+// };
+
+// // Create
+// const addPerson = (obj) => {
+//   // Option 1
+//   return Person.create(obj);
+//   // // Option 2
+//   // const per = new Person(obj);
+//   // return per.save();
+// };
+
+// // Update
+// const updatePerson = (id, obj) => {
+//   return Person.findByIdAndUpdate(id, obj);
+// };
+
+// const deletePerson = (id) => {
+//   return Person.findByIdAndDelete(id);
+// };
+
+// module.exports = {
+//   getAllPersons,
+//   getPersonById,
+//   addPerson,
+//   updatePerson,
+//   deletePerson,
+// };
