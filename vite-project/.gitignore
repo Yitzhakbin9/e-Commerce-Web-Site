@@ -26,4 +26,4 @@ dist-ssr
 
 
 # Firebase (contains secrets / config)
-src/Firebase/firebase.js
+src/Firebase
