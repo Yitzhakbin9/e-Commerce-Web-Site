@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router-dom';
 const Registration = () => {
 
     const [newUser, setNewUser] = useState({ firstName: '', lastName: '', userName: '', email: '', password: '' })
+    const navigate = useNavigate();
 
+    
     async function handleClick() {
         debugger
         try {
