@@ -29,8 +29,8 @@ const LogIn = () => {
         const uid = userCred.user.uid;
         const userDoc = await usersRepo.getUserById(uid);
         const role = userDoc._document.data.value.mapValue.fields.role
- 
-        if (role === 'admin') {
+
+        if (role.stringValue === 'admin') {
             navigate('/admin')
         } else {
             navigate('/customer')

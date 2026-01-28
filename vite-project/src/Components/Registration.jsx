@@ -12,17 +12,17 @@ const Registration = () => {
     const [newUser, setNewUser] = useState({ firstName: '', lastName: '', userName: '', email: '', password: '' })
 
     async function handleClick() {
+        debugger
         try {
             const userCred = await register(newUser.email, newUser.password);
             const userAdded = await usersRepo.createUserDoc(userCred.user.uid, {
                 email: newUser.email,
                 role: "user",
-                joinedAt: new Date(),
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
+                createdAt: new Date(),
+                fullName: newUser.firstName + " " + newUser.lastName,
                 userName: newUser.userName,
-                products: []
             });
+
             console.log("new user added -->  ", userAdded)
 
             alert('Welcome!!')

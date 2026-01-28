@@ -4,7 +4,6 @@ const GenericTableComponent = (props) => {
 
     const headers = props.headers
     const tableRow = props.tableRow
-debugger
     return (
             <table className="table">
 

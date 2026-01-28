@@ -26,6 +26,7 @@ const getAllUsers = (callback) => {
 
 // Get By ID
 const getUserById = async (id) => {
+  console.log("Getting user by ID:", id);
    return await firebaseCrudFunctions.getById(COLLECTION_NAME, id);
 };
 

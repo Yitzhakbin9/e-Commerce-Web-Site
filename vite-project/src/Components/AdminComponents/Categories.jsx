@@ -21,11 +21,14 @@ const Categories = () => {
 
 
     useEffect(() => {
-    }, [categories])
-
+        console.log(categories);
+    }, [categories]);
 
     function handleClick() {
-        categoriesRepo.addCategory(categoryName);
+        if (categoryName.trim() !== '') {
+            categoriesRepo.addCategory(categoryName);
+            setCategoryName('');
+        }
     }
 
 
@@ -33,23 +36,24 @@ const Categories = () => {
         <>
             <div className="categories">
                 <h1>Categories</h1>
-                {categories.map((c) => (
+                {/* {categories.map((c) => (
                     <Category key={c.id} categoryInfo={c} />
-                ))}
+                ))} */}
 
             </div>
 
             <div>
-                <Button variant="outlined" onClick={handleClick}>Add New Category</Button>
                 <TextField id="outlined-basic"
                     label="Enter category name"
                     variant="outlined"
                     size="small"
+                    value={categoryName}
                     onChange={(event) => {
                         setCategoryName(event.target.value);
                     }}
                     style={{ width: "250px" }}
                 />
+                <Button variant="outlined" onClick={handleClick}>Add New Category</Button>
             </div>
         </>
     )
