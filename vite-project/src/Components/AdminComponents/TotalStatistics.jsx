@@ -1,19 +1,20 @@
 import React from 'react'
-import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart'
+import { Box, Container, Paper, Typography } from '@mui/material'
 
 
 const TotalStatistics = () => {
     const data = [
-        { label: 'Clothing', value: 400, color: '#0088FE' },
-        { label: 'Tech', value: 300, color: '#00C49F' },
-        { label: 'School', value: 300, color: '#FFBB28' },
-        { label: 'Beauty', value: 200, color: '#FF8042' },
+        { label: 'Clothing', value: 400, color: '#667eea' },
+        { label: 'Tech', value: 300, color: '#764ba2' },
+        { label: 'School', value: 300, color: '#FF6B6B' },
+        { label: 'Beauty', value: 200, color: '#4ECDC4' },
     ];
 
     const sizing = {
         margin: { right: 5 },
-        width: 200,
-        height: 200,
+        width: 500,
+        height: 400,
         hideLegend: false,
     };
 
@@ -24,30 +25,70 @@ const TotalStatistics = () => {
         return `${(percent * 100).toFixed(0)}%`;
     };
 
-
-
     return (
-        <div>Total Statistics
-            <br/>
-            <br/>
-            <br/>
-            <PieChart
-                series={[
-                    {
-                        outerRadius: 100,
-                        data,
-                        arcLabel: getArcLabel,
-                    },
-                ]}
-                sx={{
-                    [`& .${pieArcLabelClasses.root}`]: {
-                        fill: 'white',
-                        fontSize: 18,
-                    },
-                }}
-                {...sizing}
-            />
-        </div>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Paper elevation={3} sx={{ p: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                    Category Distribution
+                </Typography>
+            </Paper>
+
+            <Box sx={{ mt: 4 }}>
+                <Paper elevation={2} sx={{ p: 4, background: '#f8f9fa', display: 'flex', justifyContent: 'center', borderRadius: 2 }}>
+                    <PieChart
+                        series={[
+                            {
+                                outerRadius: 120,
+                                data,
+                                arcLabel: getArcLabel,
+                                valueFormatter: (value) => `${value} items`,
+                            },
+                        ]}
+                        sx={{
+                            [`& .${pieArcLabelClasses.root}`]: {
+                                fill: 'white',
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                            },
+                        }}
+                        {...sizing}
+                    />
+                </Paper>
+
+                <Paper elevation={2} sx={{ p: 3, mt: 3, background: '#f8f9fa', borderRadius: 2 }}>
+                    <Typography variant="h6" sx={{ mb: 2, color: '#333', fontWeight: '600' }}>
+                        Summary
+                    </Typography>
+                    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 2 }}>
+                        {data.map((item) => (
+                            <Box
+                                key={item.label}
+                                sx={{
+                                    p: 2,
+                                    background: 'white',
+                                    borderRadius: 1,
+                                    textAlign: 'center',
+                                    border: `2px solid ${item.color}`,
+                                    transition: 'transform 0.2s',
+                                    '&:hover': {
+                                        transform: 'translateY(-4px)',
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                                    }
+                                }}
+                            >
+                                <Box sx={{ width: 12, height: 12, background: item.color, borderRadius: '50%', mx: 'auto', mb: 1 }}></Box>
+                                <Typography variant="body2" sx={{ fontWeight: '600', color: '#333' }}>
+                                    {item.label}
+                                </Typography>
+                                <Typography variant="caption" sx={{ color: '#999' }}>
+                                    {item.value} items
+                                </Typography>
+                            </Box>
+                        ))}
+                    </Box>
+                </Paper>
+            </Box>
+        </Container>
     )
 }
 

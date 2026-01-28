@@ -1,23 +1,15 @@
 import { useEffect, useState } from "react"
 import usersRepo from '../../Repos/usersRepo.js'
-import GenericTableComponent from '../GenericTableComponent.jsx'
 import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
-
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Box } from '@mui/material'
 
 
 const Customers = () => {
 
     const [users, setUsers] = useState([])
-    const [customerTableRow, setCustomerTableRow] = useState({
-        fullName: '',
-        joinedAt: '',
-        products: [{ name: '', qty: 0, date: '' }]
-    })
-
 
 
     useEffect(() => {
-
         const unsubscribe = usersRepo.getAllUsers((usersFromDb) => {
             setUsers(usersFromDb);
         });
@@ -25,51 +17,92 @@ const Customers = () => {
     }, [])
 
 
-    useEffect(() => {
-        const newRow = users.map((user) => ({  /// [fName, joined,prod:[]]
-            fName: user[USER_FIELDS.NAME],
-            joined: user[USER_FIELDS.CREATED_AT],
-            prod: user[ORDERS_FIELDS.PRODUCTS],
-        }));
-        console.log(newRow)
-
-        // setCustomerTableRow(...customerTableRow , newRow);
-    }, [users]);
-
-
-
-    const createTableRow = (users) => {
-        console.log(customerTableRow)
-        console.log(tableRow)
+    const formatDate = (timestamp) => {
+        if (!timestamp) return 'N/A'
+        const date = new Date(timestamp);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     }
 
-    const prodTable = null
-
-    const headers = [
-        { key: "fName", label: "Full Name" },
-        { key: "joined", label: "Joined At" },
-        { key: "products", label: "Products" }
-    ];
-
-
-    const tableRow2 = [
-        { name: 'Watch', qty: '1', date: '1/1/23' }
-    ];
-
-    const headersProductsTable = [
-        { key: "name", label: "Products" },
-        { key: "qty", label: "Qty" },
-        { key: "date", label: "Date" }
-    ];
-
-
+    const getProductCount = (products) => {
+        return products ? products.length : 0
+    }
 
     return (
-        <div className='categories'>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Paper elevation={3} sx={{ p: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                    Customers
+                </Typography>
+            </Paper>
 
-            <h1>Customers</h1>
-            <GenericTableComponent headers={headers} tableRow={customerTableRow} />
-        </div>
+            <Box sx={{ mt: 4 }}>
+                <TableContainer component={Paper} elevation={2}>
+                    <Table sx={{ minWidth: 700 }}>
+                        <TableHead>
+                            <TableRow sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }}>
+                                    Full Name
+                                </TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }} align="center">
+                                    Joined At
+                                </TableCell>
+                                <TableCell sx={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }} align="center">
+                                    Total Purchases
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {users.length > 0 ? (
+                                users.map((user, index) => (
+                                    <TableRow 
+                                        key={index}
+                                        sx={{
+                                            '&:nth-of-type(odd)': {
+                                                backgroundColor: '#f8f9fa',
+                                            },
+                                            '&:hover': {
+                                                backgroundColor: '#e8edf7',
+                                                cursor: 'pointer'
+                                            },
+                                            transition: 'background-color 0.2s'
+                                        }}
+                                    >
+                                        <TableCell sx={{ py: 2, fontWeight: '500', color: '#333' }}>
+                                            {user[USER_FIELDS.NAME]}
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ py: 2, color: '#666' }}>
+                                            {formatDate(user[USER_FIELDS.CREATED_AT])}
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ py: 2 }}>
+                                            <Box
+                                                sx={{
+                                                    display: 'inline-block',
+                                                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                                    color: 'white',
+                                                    px: 2,
+                                                    py: 0.5,
+                                                    borderRadius: 1,
+                                                    fontWeight: 'bold',
+                                                    fontSize: '0.9rem'
+                                                }}
+                                            >
+                                                {getProductCount(user[ORDERS_FIELDS.PRODUCTS])}
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={3} align="center" sx={{ py: 4, color: '#999' }}>
+                                        No customers found
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+        </Container>
     )
 }
 

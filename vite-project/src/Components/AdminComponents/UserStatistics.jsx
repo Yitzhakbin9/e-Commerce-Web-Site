@@ -1,7 +1,6 @@
 import React from 'react'
-import { BarChart } from '@mui/x-charts/BarChart';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import { BarChart } from '@mui/x-charts/BarChart'
+import { Box, Container, Paper, Autocomplete, TextField, Typography } from '@mui/material'
 import usersRepo from '../../Repos/usersRepo.js'
 import { useEffect, useState } from "react"
 import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
@@ -10,7 +9,7 @@ import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
 const UserStatistics = () => {
 
     const [users, setUsers] = useState([])
-    const [chosenUser, setChosenUser] = useState({})
+    const [chosenUser, setChosenUser] = useState(null)
     const [barNames, setBarNames] = useState(['product'])
     const [barQty, setBarQty] = useState([0])
 
@@ -21,13 +20,6 @@ const UserStatistics = () => {
         });
         return () => unsubscribe();
     }, [])
-
-
-    useEffect(() => {
-        const namesOnly = users.map((user) => ({
-            name: user[USER_FIELDS.NAME],
-        }));
-    }, [users]);
 
 
     useEffect(() => {
@@ -47,26 +39,72 @@ const UserStatistics = () => {
 
 
     return (
-        <div>UserStatistics
-            <br />
-            <Autocomplete
-                sx={{ width: 180 }}
-                disablePortal
-                options={users.map((user) => user[USER_FIELDS.NAME])}
-                renderInput={(params) => <TextField {...params} label="user" />}
-                onChange={(event, newValue) => {
-                    setChosenUser(newValue);
-                }}
-            />
-            <br />
-            <br />
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Paper elevation={3} sx={{ p: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
+                    User Purchase Statistics
+                </Typography>
+            </Paper>
 
-            <BarChart
-                xAxis={[{ id: 'barCategories', data: barNames }]}
-                series={[{ data: barQty }]}
-                height={300}
-            />
-        </div>
+            <Box sx={{ mt: 4 }}>
+                <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
+                    <Typography variant="h6" sx={{ mb: 2, color: '#333', fontWeight: '600' }}>
+                        Select User
+                    </Typography>
+                    <Autocomplete
+                        sx={{
+                            width: '100%',
+                            maxWidth: 300,
+                            '& .MuiOutlinedInput-root': {
+                                '&:hover fieldset': {
+                                    borderColor: '#667eea'
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#667eea'
+                                }
+                            },
+                            '& .MuiAutocomplete-listbox': {
+                                maxHeight: '200px'
+                            }
+                        }}
+                        disablePortal
+                        options={users.map((user) => user[USER_FIELDS.NAME])}
+                        renderInput={(params) => <TextField {...params} label="Choose a user" />}
+                        onChange={(event, newValue) => {
+                            setChosenUser(newValue);
+                        }}
+                    />
+                </Paper>
+
+                {chosenUser && barQty.length > 0 && barQty[0] !== 0 && (
+                    <Paper elevation={2} sx={{ p: 3, background: '#f8f9fa', borderRadius: 2 }}>
+                        <Typography variant="h6" sx={{ mb: 3, color: '#333', fontWeight: '600' }}>
+                            Purchase History: {chosenUser}
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'auto' }}>
+                            <BarChart
+                                xAxis={[{ id: 'barCategories', data: barNames, scaleType: 'band' }]}
+                                series={[{
+                                    data: barQty,
+                                    color: '#667eea'
+                                }]}
+                                width={600}
+                                height={400}
+                                margin={{ top: 10, bottom: 30, left: 60, right: 10 }}
+                            />
+                        </Box>
+                    </Paper>
+                )}
+
+                {(!chosenUser || (barQty.length === 1 && barQty[0] === 0)) && (
+                    <Paper elevation={2} sx={{ p: 4, textAlign: 'center', background: '#f8f9fa' }}>
+                        <Typography variant="body1" sx={{ color: '#999' }}>
+                            {chosenUser ? `${chosenUser} has no purchases yet` : 'Select a user to view their purchase statistics'}
+                        </Typography>
+                    </Paper>
+                )}
+            </Box>
+        </Container>
     )
 }
 

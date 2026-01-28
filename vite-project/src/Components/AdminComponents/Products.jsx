@@ -1,11 +1,13 @@
 import React from 'react'
 import '../../Css/styles.css';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import { useEffect, useState } from "react"
 import productsRepo from '../../Repos/productsRepo.js'
 import Product from './Product.jsx'
 import NewProduct from './NewProduct.jsx'
+import AddIcon from '@mui/icons-material/Add';
+import Grid from '@mui/material/Grid';
 
 const Products = () => {
 
@@ -33,22 +35,37 @@ const Products = () => {
     }
 
     return (
+        <Box>
+            <Box sx={{ mb: 3, display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={addProductClick}
+                    sx={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        textTransform: 'none',
+                        fontWeight: 600,
+                        py: 1.2
+                    }}
+                >
+                    Add New Product
+                </Button>
+            </Box>
 
-        <div >
+            {isAddClicked && (
+                <Box sx={{ mb: 4 }}>
+                    <NewProduct clicked={changeClick} />
+                </Box>
+            )}
 
-            {products.map((p) => (
-                <Product key={p.id} productInfo={p} />
-            ))}
-
-
-            <Button variant="outlined" onClick={addProductClick}>Add New Product</Button>
-
-            {isAddClicked ?
-                <NewProduct clicked={changeClick} /> :
-                null
-            }
-
-        </div>
+            <Grid container spacing={3}>
+                {products.map((p) => (
+                    <Grid item xs={12} sm={6} md={4} key={p.id}>
+                        <Product productInfo={p} />
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     )
 }
 

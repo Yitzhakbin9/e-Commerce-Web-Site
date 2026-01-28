@@ -1,96 +1,108 @@
 import React from 'react'
 import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
 import '../../Css/styles.css';
 import FaceIcon from '@mui/icons-material/Face';
 import DataUsageIcon from '@mui/icons-material/DataUsage';
-import CheckroomIcon from '@mui/icons-material/Checkroom';
-import EditNoteIcon from '@mui/icons-material/EditNote';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import CategoryIcon from '@mui/icons-material/Category';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { Routes, Route, Link } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 const AdminHomePage = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const [value, setValue] = useState(0);
+    // Map route to tab value
+    const getTabValue = () => {
+        if (location.pathname.includes('categories')) return 0;
+        if (location.pathname.includes('products')) return 1;
+        if (location.pathname.includes('customers')) return 2;
+        if (location.pathname.includes('statistics')) return 3;
+        return 0;
+    };
 
+    const [value, setValue] = useState(getTabValue());
 
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        const routes = ['/admin/categories', '/admin/products', '/admin/customers', '/admin/statistics'];
+        navigate(routes[newValue]);
+    };
 
     return (
-        <div className="page">
-            <div className="box">
-                <h1>Hello Admin!</h1>
-                <Box sx={{ width: 500 }}>
-                    <BottomNavigation
-                        showLabels
+        <Box sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            py: 4
+        }}>
+            <Container maxWidth="xl">
+                <Paper
+                    elevation={3}
+                    sx={{
+                        borderRadius: 2,
+                        overflow: 'hidden'
+                    }}
+                >
+                    {/* Header */}
+                    <Box sx={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        p: 3,
+                        textAlign: 'center'
+                    }}>
+                        <Typography variant="h3" sx={{ fontWeight: 700 }}>
+                            Admin Dashboard
+                        </Typography>
+                        <Typography variant="subtitle1" sx={{ mt: 1, opacity: 0.9 }}>
+                            Manage your store efficiently
+                        </Typography>
+                    </Box>
+
+                    {/* Navigation Tabs */}
+                    <Tabs
                         value={value}
-                        onChange={(event, newValue) => {
-                            // console.log(event.target);
-                            // console.log("newValue     " + newValue);
-                            <Link to={"/registration"}>Register</Link>
-
-                            // console.log("value" + value);
-                            // console.log("value" + value);
-                            setValue(newValue);
-
+                        onChange={handleChange}
+                        variant="fullWidth"
+                        sx={{
+                            background: 'white',
+                            borderBottom: '2px solid #f0f0f0',
+                            '& .MuiTab-root': {
+                                textTransform: 'none',
+                                fontSize: '1rem',
+                                fontWeight: 500,
+                                py: 2,
+                                color: '#666',
+                                '&.Mui-selected': {
+                                    color: '#667eea',
+                                    fontWeight: 600,
+                                }
+                            },
+                            '& .MuiTabs-indicator': {
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                height: 3
+                            }
                         }}
-
                     >
+                        <Tab icon={<CategoryIcon />} label="Categories" iconPosition="start" />
+                        <Tab icon={<StorefrontIcon />} label="Products" iconPosition="start" />
+                        <Tab icon={<FaceIcon />} label="Customers" iconPosition="start" />
+                        <Tab icon={<DataUsageIcon />} label="Statistics" iconPosition="start" />
+                    </Tabs>
 
-
-
-                        <BottomNavigationAction
-                            label="Categories"
-                            value="categories"
-                            icon={<EditNoteIcon />}
-                            component={Link}
-                            to="/admin/categories"
-                        />
-                        <BottomNavigationAction
-                            label="Products"
-                            value="products"
-                            icon={<CheckroomIcon />}
-                            component={Link}
-                            to="/admin/products"
-                        />
-                        <BottomNavigationAction
-                            label="Customers"
-                            value="customers"
-                            icon={<FaceIcon />}
-                            component={Link}
-                            to="/admin/customers"
-                        />
-                        <BottomNavigationAction
-                            label="Statistics"
-                            value="statistics"
-                            icon={<DataUsageIcon />}
-                            component={Link}
-                            to="/admin/statistics"
-                        />
-
-                    </BottomNavigation>
-                </Box>
-
-
-
-                {/* import { useNavigate } from 'react-router-dom';
-
-const navigate = useNavigate();
-    navigate('/stage3'); */}
-
-
-
-
-                <Outlet />
-                {/* <Categories/> */}
-                {/* <Customers/> */}
-                {/* <Products/> */}
-
-            </div>
-        </div>
-
+                    {/* Content */}
+                    <Box sx={{ p: 4, minHeight: '500px' }}>
+                        <Outlet />
+                    </Box>
+                </Paper>
+            </Container>
+        </Box>
     )
 }
 

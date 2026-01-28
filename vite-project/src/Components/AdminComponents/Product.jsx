@@ -1,97 +1,76 @@
 import '../../Css/styles.css';
-import TextField from '@mui/material/TextField';
-import GenericTableComponent from '../GenericTableComponent.jsx';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import { PRODUCTS_FIELDS } from '../../Constants/fields.js';
 
 const Product = ({ productInfo }) => {
 
-  const tableRow2 = [
-    { prod: 'Watch', qty: '1', d: '1/1/23' },
-    { prod: 'Watch', qty: '1', d: '1/1/23' },
-    { prod: 'Watch', qty: '1', d: '1/1/23' }
-  ];
-
-  const headers2 = [
-    { key: "prod", label: "Products" },
-    { key: "qty", label: "Qty" },
-    { key: "d", label: "Date" }
-  ];
-
-
-
   return (
-
-    <div
-      style={{
+    <Card
+      sx={{
+        height: '100%',
         display: 'flex',
-        gap: '40px',
-        border: '2px solid black',
-        borderRadius: '40px',
-        padding: '10px',
-      }}>
-
-
-      {/* LEFT SIDE */}
-      <div style={{ flex: 1 }}>
-
-        <br />
-        Title: <TextField
-          disabled
-          id="outlined-disabled"
-          defaultValue={productInfo[PRODUCTS_FIELDS.NAME]}
-          size='small'
+        flexDirection: 'column',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          boxShadow: '0 8px 24px rgba(102, 126, 234, 0.15)',
+          transform: 'translateY(-4px)',
+        }
+      }}
+    >
+      {productInfo[PRODUCTS_FIELDS.IMG_URL] && (
+        <CardMedia
+          component="img"
+          height="200"
+          image={productInfo[PRODUCTS_FIELDS.IMG_URL]}
+          alt={productInfo[PRODUCTS_FIELDS.NAME]}
+          sx={{ objectFit: 'cover' }}
         />
-        <br />
-        Price: <TextField
-          disabled
-          id="outlined-disabled"
-          defaultValue={productInfo[PRODUCTS_FIELDS.PRICE]}
-          size='small'
-        />
-        <br />
-        Category: <TextField
-          disabled
-          id="outlined-disabled"
-          defaultValue={productInfo.category}
-          size='small'
-        />
-        <br />
-      </div>
+      )}
 
-      {/* RIGHT SIDE */}
-      <div style={{ flex: 1 }}>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, color: '#333', mb: 1 }}>
+          {productInfo[PRODUCTS_FIELDS.NAME]}
+        </Typography>
 
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 2, minHeight: '40px', overflow: 'hidden' }}>
+          {productInfo[PRODUCTS_FIELDS.DESCREPTION]}
+        </Typography>
 
+        <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+          <Chip
+            label={`$${productInfo[PRODUCTS_FIELDS.PRICE]}`}
+            sx={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              fontWeight: 600
+            }}
+          />
+          <Chip
+            label={`Stock: ${productInfo[PRODUCTS_FIELDS.STOCO_QTY]}`}
+            variant="outlined"
+            sx={{ borderColor: '#667eea', color: '#667eea' }}
+          />
+          <Chip
+            label={productInfo[PRODUCTS_FIELDS.IS_ACTIVE] ? 'Active' : 'Inactive'}
+            sx={{
+              background: productInfo[PRODUCTS_FIELDS.IS_ACTIVE] ? '#4caf50' : '#f44336',
+              color: 'white',
+              fontWeight: 600
+            }}
+          />
+        </Box>
 
-        Description: <TextField
-          id="outlined-multiline-static"
-          label="Multiline"
-          multiline
-          rows={4}
-          defaultValue={productInfo[PRODUCTS_FIELDS.DESCREPTION]}
-        />
-        <br />
-
-      </div>
-
-
-      Link To Pic: <TextField
-        id="outlined-multiline-static"
-        label="Multiline"
-        multiline
-        rows={4}
-        defaultValue={productInfo[PRODUCTS_FIELDS.IMG_URL]}
-      />
-      <br />
-      Bought By:
-      <GenericTableComponent headers={headers2} tableRow={tableRow2} />
-
-
-
-
-
-    </div>
-
+        <Typography variant="caption" sx={{ color: '#999' }}>
+          ID: {productInfo.id}
+        </Typography>
+      </CardContent>
+    </Card>
   )
 }
 

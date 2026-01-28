@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import Category from './Category.jsx'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import AddIcon from '@mui/icons-material/Add';
 import categoriesRepo from '../../Repos/categoriesRepo.js'
 import '../../Css/styles.css';
 
@@ -25,7 +30,6 @@ const Categories = () => {
     }, [categories]);
 
     function handleClick() {
-        debugger
         if (newCategoryName.trim() !== '') {
             categoriesRepo.addCategory(newCategoryName);
             setNewCategoryName('');
@@ -34,29 +38,54 @@ const Categories = () => {
 
 
     return (
-        <>
-            <div className="categories">
-                <h1>Categories</h1>
+        <Box>
+            <Box sx={{ mb: 4 }}>
+                <Box sx={{
+                    display: 'flex',
+                    gap: 2,
+                    mb: 3,
+                    flexWrap: 'wrap'
+                }}>
+                    <TextField
+                        label="Enter category name"
+                        variant="outlined"
+                        size="small"
+                        value={newCategoryName}
+                        onChange={(event) => {
+                            setNewCategoryName(event.target.value);
+                        }}
+                        sx={{
+                            flex: 1,
+                            minWidth: '200px',
+                            '& .MuiOutlinedInput-root': {
+                                '&:hover fieldset': { borderColor: '#667eea' },
+                                '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                            },
+                        }}
+                    />
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        onClick={handleClick}
+                        sx={{
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            textTransform: 'none',
+                            fontWeight: 600,
+                        }}
+                    >
+                        Add Category
+                    </Button>
+                </Box>
+            </Box>
+
+            <Grid container spacing={2}>
                 {categories.map((c) => (
-                    <Category key={c.id} categoryInfo={c} />
+                    <Grid item xs={12} sm={6} md={4} key={c.id}>
+                        <Category categoryInfo={c} />
+                    </Grid>
                 ))}
-
-            </div>
-
-            <div>
-                <TextField id="outlined-basic"
-                    label="Enter category name"
-                    variant="outlined"
-                    size="small"
-                    value={newCategoryName}
-                    onChange={(event) => {
-                        setNewCategoryName(event.target.value);
-                    }}
-                    style={{ width: "250px" }}
-                />
-                <Button variant="outlined" onClick={handleClick}>Add New Category</Button>
-            </div>
-        </>
+            </Grid>
+        </Box>
     )
 }
 
