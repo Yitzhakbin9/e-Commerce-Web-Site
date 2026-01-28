@@ -17,6 +17,7 @@
     "@mui/material": "^7.3.6",
     "@mui/x-charts": "^8.22.0",
     "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
     "firebase": "^12.6.0",
     "firestore": "^1.1.6",
     "jsonfile": "^6.2.0",
