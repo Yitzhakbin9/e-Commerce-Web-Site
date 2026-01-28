@@ -3,8 +3,10 @@
 import firebaseCrudFunctions from '../Firebase/firebaseCrudFunctions';
 import { doc, setDoc } from "firebase/firestore";
 import db from "../Firebase/firebase"
+import { COLLECTIONS } from '../Constants/collections';
+import { USER_FIELDS } from '../Constants/fields';
 
-const COLLECTION_NAME = "users"
+const COLLECTION_NAME = COLLECTIONS.USERS
 
 
 // Get All
@@ -14,8 +16,8 @@ const getAllUsers = (callback) => {
 
     const users = usersFromDb.map(user => ({
       ...user,
-      joinedAt: user.joinedAt
-        ? user.joinedAt.toDate().toLocaleDateString("he-IL")
+      [USER_FIELDS.CREATED_AT]: user[USER_FIELDS.CREATED_AT]
+        ? user[USER_FIELDS.CREATED_AT].toDate().toLocaleDateString("he-IL")
         : ""
     }));
 
@@ -27,7 +29,7 @@ const getAllUsers = (callback) => {
 // Get By ID
 const getUserById = async (id) => {
   console.log("Getting user by ID:", id);
-   return await firebaseCrudFunctions.getById(COLLECTION_NAME, id);
+  return await firebaseCrudFunctions.getById(COLLECTION_NAME, id);
 };
 
 // // Create

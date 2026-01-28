@@ -48,7 +48,7 @@ const add = async (collName, doc) => {
 
 const update = async (collName, id, name) => {
     const userDoc = doc(db, collName, id)
-    updateDoc(userDoc, { categoryName: name })
+    updateDoc(userDoc, { name: name })
 }
 
 

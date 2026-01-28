@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import usersRepo from '../../Repos/usersRepo.js'
 import GenericTableComponent from '../GenericTableComponent.jsx'
+import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
 
 
 
@@ -26,12 +27,12 @@ const Customers = () => {
 
     useEffect(() => {
         const newRow = users.map((user) => ({  /// [fName, joined,prod:[]]
-            fName: user.firstName,
-            joined: user.joinedAt,
-            prod: user.products,
+            fName: user[USER_FIELDS.NAME],
+            joined: user[USER_FIELDS.CREATED_AT],
+            prod: user[ORDERS_FIELDS.PRODUCTS],
         }));
         console.log(newRow)
-        
+
         // setCustomerTableRow(...customerTableRow , newRow);
     }, [users]);
 

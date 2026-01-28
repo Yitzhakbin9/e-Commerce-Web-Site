@@ -9,12 +9,13 @@ import Grid from '@mui/material/Grid';
 import Autocomplete from '@mui/material/Autocomplete';
 import categoriesRepo from '../../Repos/categoriesRepo.js'
 import productsRepo from '../../Repos/productsRepo.js'
+import { PRODUCTS_FIELDS, CATEGORY_FIELDS } from '../../Constants/fields.js'
 
 
 
 const NewProduct = (props) => {
 
-    
+
     const [categories, setCategories] = useState([])
     const [newProduct, setNewProduct] = useState({
         title: "",
@@ -27,7 +28,7 @@ const NewProduct = (props) => {
 
     useEffect(() => {
         const unsubscribe = categoriesRepo.getAllCategories((category) => {
-            setCategories(category.map((p) => p.categoryName))
+            setCategories(category.map((p) => p[CATEGORY_FIELDS.NAME]))
         });
         return () => unsubscribe();
     }, []);

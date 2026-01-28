@@ -9,7 +9,7 @@ import '../../Css/styles.css';
 const Categories = () => {
 
     const [categories, setCategories] = useState([])
-    const [categoryName, setCategoryName] = useState('');
+    const [newCategoryName, setNewCategoryName] = useState('');
 
 
     useEffect(() => {
@@ -25,9 +25,10 @@ const Categories = () => {
     }, [categories]);
 
     function handleClick() {
-        if (categoryName.trim() !== '') {
-            categoriesRepo.addCategory(categoryName);
-            setCategoryName('');
+        debugger
+        if (newCategoryName.trim() !== '') {
+            categoriesRepo.addCategory(newCategoryName);
+            setNewCategoryName('');
         }
     }
 
@@ -36,9 +37,9 @@ const Categories = () => {
         <>
             <div className="categories">
                 <h1>Categories</h1>
-                {/* {categories.map((c) => (
+                {categories.map((c) => (
                     <Category key={c.id} categoryInfo={c} />
-                ))} */}
+                ))}
 
             </div>
 
@@ -47,9 +48,9 @@ const Categories = () => {
                     label="Enter category name"
                     variant="outlined"
                     size="small"
-                    value={categoryName}
+                    value={newCategoryName}
                     onChange={(event) => {
-                        setCategoryName(event.target.value);
+                        setNewCategoryName(event.target.value);
                     }}
                     style={{ width: "250px" }}
                 />

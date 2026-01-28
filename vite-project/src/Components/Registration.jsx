@@ -5,6 +5,7 @@ import '../Css/styles.css';
 import { register, errorMsgFromFirebaseAuth } from '../Firebase/firebaseAuth';
 import usersRepo from '../Repos/usersRepo'
 import { useNavigate } from 'react-router-dom';
+import { USER_FIELDS } from '../Constants/fields';
 
 
 const Registration = () => {
@@ -12,17 +13,17 @@ const Registration = () => {
     const [newUser, setNewUser] = useState({ firstName: '', lastName: '', userName: '', email: '', password: '' })
     const navigate = useNavigate();
 
-    
+
     async function handleClick() {
         debugger
         try {
             const userCred = await register(newUser.email, newUser.password);
             const userAdded = await usersRepo.createUserDoc(userCred.user.uid, {
-                email: newUser.email,
-                role: "user",
-                createdAt: new Date(),
-                fullName: newUser.firstName + " " + newUser.lastName,
-                userName: newUser.userName,
+                [USER_FIELDS.EMAIL]: newUser.email,
+                [USER_FIELDS.ROLE]: "user",
+                [USER_FIELDS.CREATED_AT]: new Date(),
+                [USER_FIELDS.NAME]: newUser.firstName + " " + newUser.lastName,
+                [USER_FIELDS.USER_NAME]: newUser.userName,
             });
 
             console.log("new user added -->  ", userAdded)

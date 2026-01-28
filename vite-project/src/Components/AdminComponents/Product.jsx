@@ -1,6 +1,7 @@
 import '../../Css/styles.css';
 import TextField from '@mui/material/TextField';
 import GenericTableComponent from '../GenericTableComponent.jsx';
+import { PRODUCTS_FIELDS } from '../../Constants/fields.js';
 
 const Product = ({ productInfo }) => {
 
@@ -37,14 +38,14 @@ const Product = ({ productInfo }) => {
         Title: <TextField
           disabled
           id="outlined-disabled"
-          defaultValue={productInfo.title}
+          defaultValue={productInfo[PRODUCTS_FIELDS.NAME]}
           size='small'
         />
         <br />
         Price: <TextField
           disabled
           id="outlined-disabled"
-          defaultValue={productInfo.price}
+          defaultValue={productInfo[PRODUCTS_FIELDS.PRICE]}
           size='small'
         />
         <br />
@@ -67,7 +68,7 @@ const Product = ({ productInfo }) => {
           label="Multiline"
           multiline
           rows={4}
-          defaultValue={productInfo.description}
+          defaultValue={productInfo[PRODUCTS_FIELDS.DESCREPTION]}
         />
         <br />
 
@@ -79,11 +80,11 @@ const Product = ({ productInfo }) => {
         label="Multiline"
         multiline
         rows={4}
-        defaultValue={productInfo.pic}
+        defaultValue={productInfo[PRODUCTS_FIELDS.IMG_URL]}
       />
       <br />
       Bought By:
-      <GenericTableComponent headers={headers2} tableRow={tableRow2}/>
+      <GenericTableComponent headers={headers2} tableRow={tableRow2} />
 
 
 
