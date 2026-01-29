@@ -26,3 +26,6 @@ dist-ssr
 
 # environment variables
 .env    
+
+# build output
+dist/
