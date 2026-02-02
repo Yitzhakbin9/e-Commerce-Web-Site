@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import usersRepo from '../../Repos/usersRepo.js'
+// import oredersRepo from '../../Repos/or.js'
 import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
 import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Box } from '@mui/material'
 
@@ -7,11 +8,19 @@ import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 const Customers = () => {
 
     const [users, setUsers] = useState([])
+    const [orders, setOrders] = useState([])
 
 
     useEffect(() => {
         const unsubscribe = usersRepo.getAllUsers((usersFromDb) => {
             setUsers(usersFromDb);
+        });
+        return () => unsubscribe();
+    }, [])
+
+    useEffect(() => {
+        const unsubscribe = ordersRepo.getAllOrders((ordersFromDb) => {
+            setOrders(ordersFromDb);
         });
         return () => unsubscribe();
     }, [])
@@ -45,7 +54,7 @@ const Customers = () => {
                                     Joined At
                                 </TableCell>
                                 <TableCell sx={{ color: 'white', fontWeight: 'bold', fontSize: '1rem' }} align="center">
-                                    Total Purchases
+                                    Products Purchased
                                 </TableCell>
                             </TableRow>
                         </TableHead>

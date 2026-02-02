@@ -1,23 +1,22 @@
 import firebaseCrudFunctions from '../Firebase/firebaseCrudFunctions';
 import { COLLECTIONS } from '../Constants/collections';
-import { PRODUCTS_FIELDS } from '../Constants/fields';
 
-const COLLECTION_NAME = COLLECTIONS.PRODUCTS
+const COLLECTION_NAME = COLLECTIONS.ORDERS
 
 
-const getAllProducts = (callback) => {
+const getAllOrders = (callback) => {
   return firebaseCrudFunctions.getAll(callback, COLLECTION_NAME);
 };
 
 
-const addProduct = (doc) => {
+const addOrder = (doc) => {
   return firebaseCrudFunctions.add(COLLECTION_NAME, doc);
 };
 
 
 export default {
-  getAllProducts,
-  addProduct
+  getAllOrders,
+  addOrder
 };
 
 

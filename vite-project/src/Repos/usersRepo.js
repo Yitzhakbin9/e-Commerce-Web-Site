@@ -1,4 +1,3 @@
-// REPO - basic crud funcs with firebase
 
 import firebaseCrudFunctions from '../Firebase/firebaseCrudFunctions';
 import { doc, setDoc } from "firebase/firestore";
