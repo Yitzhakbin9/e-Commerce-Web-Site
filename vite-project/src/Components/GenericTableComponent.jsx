@@ -1,24 +1,40 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
+
+// This component can build generic tables based on the headers and tableRow props passed to it
+
+
 const GenericTableComponent = (props) => {
 
     const headers = props.headers
     const tableRow = props.tableRow
+    const isNested = props.isNested || false
 
     return (
-        <TableContainer component={Paper} elevation={2} sx={{ mt: 3 }}>
-            <Table sx={{ minWidth: 650 }}>
+        <TableContainer
+            component={Paper}
+            elevation={isNested ? 0 : 2}
+            sx={{ mt: isNested ? 0 : 3, boxShadow: isNested ? 'none' : undefined }}
+        >
+            <Table size={isNested ? "small" : "medium"} sx={{ minWidth: isNested ? 200 : 650 }}>
                 <TableHead>
-                    <TableRow sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                    <TableRow sx={{
+                        background: isNested ? '#f0f0f0' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        border: isNested ? '2px solid #000' : undefined
+                    }}>
                         {headers.map(h => (
-                            <TableCell 
+                            <TableCell
                                 key={h.key}
-                                sx={{ 
-                                    color: 'white', 
-                                    fontWeight: 'bold', 
-                                    fontSize: '1rem'
+                                sx={{
+                                    color: isNested ? '#333' : 'white',
+                                    fontWeight: 'bold',
+                                    fontSize: isNested ? '0.75rem' : '1rem',
+                                    py: isNested ? 0.5 : 2,
+                                    px: isNested ? 1 : 2,
+                                    border: isNested ? '2px solid #000' : undefined
                                 }}
+                                align={h.key !== headers[0].key ? "center" : "left"}
                             >
                                 {h.label}
                             </TableCell>
@@ -29,25 +45,28 @@ const GenericTableComponent = (props) => {
                 <TableBody>
                     {Array.isArray(tableRow) && tableRow.length > 0 ? (
                         tableRow.map((row, index) => (
-                            <TableRow 
+                            <TableRow
                                 key={index}
                                 sx={{
                                     '&:nth-of-type(odd)': {
-                                        backgroundColor: '#f8f9fa',
+                                        backgroundColor: isNested ? '#fff' : '#f8f9fa',
                                     },
                                     '&:hover': {
-                                        backgroundColor: '#e8edf7',
+                                        backgroundColor: isNested ? '#f9f9f9' : '#e8edf7',
                                     },
                                     transition: 'background-color 0.2s'
                                 }}
                             >
                                 {headers.map(h => (
-                                    <TableCell 
+                                    <TableCell
                                         key={h.key}
-                                        sx={{ 
-                                            py: 2,
-                                            color: '#333'
+                                        sx={{
+                                            py: isNested ? 0.3 : 2,
+                                            px: isNested ? 1 : 2,
+                                            fontSize: isNested ? '0.75rem' : '1rem',
+                                            border: isNested ? '2px solid #000' : undefined
                                         }}
+                                        align={h.key !== headers[0].key ? "center" : "left"}
                                     >
                                         {row[h.key] || '-'}
                                     </TableCell>
@@ -56,10 +75,16 @@ const GenericTableComponent = (props) => {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell 
-                                colSpan={headers.length} 
-                                align="center" 
-                                sx={{ py: 3, color: '#999' }}
+                            <TableCell
+                                colSpan={headers.length}
+                                align="center"
+                                sx={{
+                                    py: isNested ? 0.5 : 3,
+                                    px: isNested ? 1 : 2,
+                                    color: '#999',
+                                    fontSize: isNested ? '0.75rem' : '1rem',
+                                    border: isNested ? '2px solid #000' : undefined
+                                }}
                             >
                                 No data available
                             </TableCell>
