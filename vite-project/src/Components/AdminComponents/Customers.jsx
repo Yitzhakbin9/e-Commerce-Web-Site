@@ -16,12 +16,10 @@ const Customers = () => {
         return () => unsubscribe();
     }, [])
 
+    useEffect(() => {
+        console.log(users);
+    }, [users]);
 
-    const formatDate = (timestamp) => {
-        if (!timestamp) return 'N/A'
-        const date = new Date(timestamp);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-    }
 
     const getProductCount = (products) => {
         return products ? products.length : 0
@@ -54,7 +52,7 @@ const Customers = () => {
                         <TableBody>
                             {users.length > 0 ? (
                                 users.map((user, index) => (
-                                    <TableRow 
+                                    <TableRow
                                         key={index}
                                         sx={{
                                             '&:nth-of-type(odd)': {
@@ -71,7 +69,7 @@ const Customers = () => {
                                             {user[USER_FIELDS.NAME]}
                                         </TableCell>
                                         <TableCell align="center" sx={{ py: 2, color: '#666' }}>
-                                            {formatDate(user[USER_FIELDS.CREATED_AT])}
+                                            {user[USER_FIELDS.CREATED_AT]}
                                         </TableCell>
                                         <TableCell align="center" sx={{ py: 2 }}>
                                             <Box

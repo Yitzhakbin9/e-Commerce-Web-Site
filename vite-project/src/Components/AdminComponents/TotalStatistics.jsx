@@ -1,9 +1,29 @@
 import React from 'react'
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart'
 import { Box, Container, Paper, Typography } from '@mui/material'
+import { useState, useEffect } from 'react';
+import categoriesRepo from '../../Repos/categoriesRepo.js'
 
 
 const TotalStatistics = () => {
+
+
+    const [categories, setCategories] = useState([])
+    const [newCategoryName, setNewCategoryName] = useState('');
+
+
+    useEffect(() => {
+        const unsubscribe = categoriesRepo.getAllCategories((category) => {
+            setCategories(category);
+        });
+        return () => unsubscribe();
+    }, [])
+
+    useEffect(() => {
+        console.log(categories);
+    }, [categories]);
+
+
     const data = [
         { label: 'Clothing', value: 400, color: '#667eea' },
         { label: 'Tech', value: 300, color: '#764ba2' },

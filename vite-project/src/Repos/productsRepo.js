@@ -13,16 +13,8 @@ const getAllProducts = (callback) => {
   return firebaseCrudFunctions.getAll(callback, COLLECTION_NAME);
 };
 
-// const getAllProducts = () => {
-//   // const prods = firebaseCrudFunctions.getAll("products");
-//   const prods = firebaseCrudFunctions.getAll(() => {}, "products");
-//     console.log(prods)
-//     return prods;
-// };
-
 
 const addProduct = (doc) => {
-  // const doc = {categoryName : name , Items: []}
   return firebaseCrudFunctions.add(COLLECTION_NAME, doc);
 };
 

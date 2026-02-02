@@ -19,13 +19,16 @@ const NewProduct = (props) => {
 
     const [categories, setCategories] = useState([])
     const [newProduct, setNewProduct] = useState({
-        title: "",
-        category: "",
-        description: "",
-        price: 0,
-        pic: "",
-        boughtBy: []
+        [PRODUCTS_FIELDS.NAME]: '',
+        [PRODUCTS_FIELDS.DESCRIPTION]: '',
+        [PRODUCTS_FIELDS.IMG_URL]: '',
+        [PRODUCTS_FIELDS.IS_ACTIVE]: true,
+        [PRODUCTS_FIELDS.NAME]: '',
+        [PRODUCTS_FIELDS.PRICE]: 0,
+        [PRODUCTS_FIELDS.STOCK_QTY]: 0,
+        [PRODUCTS_FIELDS.CATEGORY_NAME]: ''
     })
+
     const [errors, setErrors] = useState({})
 
     useEffect(() => {
@@ -35,16 +38,31 @@ const NewProduct = (props) => {
         return () => unsubscribe();
     }, []);
 
+
+    useEffect(() => {
+        console.log(categories)
+    }, [categories]);
+
+    useEffect(() => {
+        console.log(newProduct)
+    }, [newProduct]);
+
+
+
+
+
     function validateForm() {
         const newErrors = {};
-        if (!newProduct.title.trim()) newErrors.title = "Title is required";
-        if (!newProduct.category) newErrors.category = "Category is required";
-        if (!newProduct.description.trim()) newErrors.description = "Description is required";
-        if (newProduct.price <= 0) newErrors.price = "Price must be greater than 0";
+        if (!newProduct[PRODUCTS_FIELDS.NAME].trim()) newErrors[PRODUCTS_FIELDS.NAME] = "Name is required";
+        if (!newProduct[PRODUCTS_FIELDS.CATEGORY_NAME]) newErrors[PRODUCTS_FIELDS.CATEGORY_NAME] = "Category is required";
+        if (!newProduct[PRODUCTS_FIELDS.DESCRIPTION].trim()) newErrors[PRODUCTS_FIELDS.DESCRIPTION] = "Description is required";
+        if (newProduct[PRODUCTS_FIELDS.PRICE] <= 0) newErrors[PRODUCTS_FIELDS.PRICE] = "Price must be greater than 0";
+        if (newProduct[PRODUCTS_FIELDS.STOCK_QTY] <= 0) newErrors[PRODUCTS_FIELDS.STOCK_QTY] = "Quantity must be greater than 0";
         return newErrors;
     }
 
     function saveNewProductClick() {
+        debugger
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
@@ -78,13 +96,13 @@ const NewProduct = (props) => {
                             fullWidth
                             label="Product Title"
                             variant="outlined"
-                            value={newProduct.title}
+                            value={newProduct[PRODUCTS_FIELDS.NAME]}
                             onChange={(e) => {
-                                setNewProduct({ ...newProduct, title: e.target.value });
-                                setErrors({ ...errors, title: '' });
+                                setNewProduct({ ...newProduct, [PRODUCTS_FIELDS.NAME]: e.target.value });
+                                setErrors({ ...errors, [PRODUCTS_FIELDS.NAME]: '' });
                             }}
-                            error={!!errors.title}
-                            helperText={errors.title}
+                            error={!!errors[PRODUCTS_FIELDS.NAME]}
+                            helperText={errors[PRODUCTS_FIELDS.NAME]}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     '&:hover fieldset': { borderColor: '#667eea' },
@@ -100,13 +118,36 @@ const NewProduct = (props) => {
                             type="number"
                             label="Price"
                             variant="outlined"
-                            value={newProduct.price}
+                            value={newProduct[PRODUCTS_FIELDS.PRICE]}
                             onChange={(e) => {
-                                setNewProduct({ ...newProduct, price: +e.target.value });
-                                setErrors({ ...errors, price: '' });
+                                setNewProduct({ ...newProduct, [PRODUCTS_FIELDS.PRICE]: +e.target.value });
+                                setErrors({ ...errors, [PRODUCTS_FIELDS.PRICE]: '' });
                             }}
-                            error={!!errors.price}
-                            helperText={errors.price}
+                            error={!!errors[PRODUCTS_FIELDS.PRICE]}
+                            helperText={errors[PRODUCTS_FIELDS.PRICE]}
+                            inputProps={{ step: "0.01", min: "0" }}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    '&:hover fieldset': { borderColor: '#667eea' },
+                                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                },
+                            }}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            fullWidth
+                            type="number"
+                            label="Quantity"
+                            variant="outlined"
+                            value={newProduct[PRODUCTS_FIELDS.STOCK_QTY]}
+                            onChange={(e) => {
+                                setNewProduct({ ...newProduct, [PRODUCTS_FIELDS.STOCK_QTY]: +e.target.value });
+                                setErrors({ ...errors, [PRODUCTS_FIELDS.STOCK_QTY]: '' });
+                            }}
+                            error={!!errors[PRODUCTS_FIELDS.STOCK_QTY]}
+                            helperText={errors[PRODUCTS_FIELDS.STOCK_QTY]}
                             inputProps={{ step: "0.01", min: "0" }}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
@@ -121,17 +162,17 @@ const NewProduct = (props) => {
                         <Autocomplete
                             fullWidth
                             options={categories}
-                            value={newProduct.category}
+                            value={newProduct[PRODUCTS_FIELDS.CATEGORY_NAME]}
                             onChange={(event, newValue) => {
-                                setNewProduct({ ...newProduct, category: newValue });
-                                setErrors({ ...errors, category: '' });
+                                setNewProduct({ ...newProduct, [PRODUCTS_FIELDS.CATEGORY_NAME]: newValue });
+                                setErrors({ ...errors, [PRODUCTS_FIELDS.CATEGORY_NAME]: '' });
                             }}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     label="Category"
-                                    error={!!errors.category}
-                                    helperText={errors.category}
+                                    error={!!errors[PRODUCTS_FIELDS.CATEGORY_NAME]}
+                                    helperText={errors[PRODUCTS_FIELDS.CATEGORY_NAME]}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
                                             '&:hover fieldset': { borderColor: '#667eea' },
@@ -148,8 +189,8 @@ const NewProduct = (props) => {
                             fullWidth
                             label="Image URL"
                             variant="outlined"
-                            value={newProduct.pic}
-                            onChange={(e) => setNewProduct({ ...newProduct, pic: e.target.value })}
+                            value={newProduct[PRODUCTS_FIELDS.IMG_URL]}
+                            onChange={(e) => setNewProduct({ ...newProduct, [PRODUCTS_FIELDS.IMG_URL]: e.target.value })}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     '&:hover fieldset': { borderColor: '#667eea' },
@@ -166,13 +207,13 @@ const NewProduct = (props) => {
                             variant="outlined"
                             multiline
                             rows={4}
-                            value={newProduct.description}
+                            value={newProduct[PRODUCTS_FIELDS.DESCRIPTION]}
                             onChange={(e) => {
-                                setNewProduct({ ...newProduct, description: e.target.value });
-                                setErrors({ ...errors, description: '' });
+                                setNewProduct({ ...newProduct, [PRODUCTS_FIELDS.DESCRIPTION]: e.target.value });
+                                setErrors({ ...errors, [PRODUCTS_FIELDS.DESCRIPTION]: '' });
                             }}
-                            error={!!errors.description}
-                            helperText={errors.description}
+                            error={!!errors[PRODUCTS_FIELDS.DESCRIPTION]}
+                            helperText={errors[PRODUCTS_FIELDS.DESCRIPTION]}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     '&:hover fieldset': { borderColor: '#667eea' },

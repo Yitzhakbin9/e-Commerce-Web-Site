@@ -26,10 +26,11 @@ export const ORDERS_FIELDS = {
 
 export const PRODUCTS_FIELDS = {
     CREATED_AT: 'createdAt',
-    DESCREPTION: 'description',
+    DESCRIPTION: 'description',
     IMG_URL: 'imgUrl',
     IS_ACTIVE: 'isActive',
     NAME: 'name',
     PRICE: 'price',
-    STOCO_QTY: 'stockQty',
+    STOCK_QTY: 'stockQty',
+    CATEGORY_NAME: 'categoryName',
 };

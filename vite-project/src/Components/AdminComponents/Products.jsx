@@ -26,6 +26,7 @@ const Products = () => {
     }, []);
 
     useEffect(() => {
+        console.log(products);
     }, [products])
 
 

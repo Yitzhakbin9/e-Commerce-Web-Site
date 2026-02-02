@@ -39,7 +39,7 @@ const Product = ({ productInfo }) => {
         </Typography>
 
         <Typography variant="body2" color="textSecondary" sx={{ mb: 2, minHeight: '40px', overflow: 'hidden' }}>
-          {productInfo[PRODUCTS_FIELDS.DESCREPTION]}
+          {productInfo[PRODUCTS_FIELDS.DESCRIPTION]}
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
@@ -52,7 +52,7 @@ const Product = ({ productInfo }) => {
             }}
           />
           <Chip
-            label={`Stock: ${productInfo[PRODUCTS_FIELDS.STOCO_QTY]}`}
+            label={`Stock: ${productInfo[PRODUCTS_FIELDS.STOCK_QTY]}`}
             variant="outlined"
             sx={{ borderColor: '#667eea', color: '#667eea' }}
           />
