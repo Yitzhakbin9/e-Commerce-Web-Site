@@ -11,7 +11,7 @@ import DataUsageIcon from '@mui/icons-material/DataUsage';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom"
 
 
@@ -29,6 +29,13 @@ const AdminHomePage = () => {
     };
 
     const [value, setValue] = useState(getTabValue());
+
+    // Navigate to categories by default when landing on /admin
+    useEffect(() => {
+        if (location.pathname === '/admin') {
+            navigate('/admin/categories');
+        }
+    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -96,7 +103,6 @@ const AdminHomePage = () => {
                         <Tab icon={<DataUsageIcon />} label="Statistics" iconPosition="start" />
                     </Tabs>
 
-                    {/* Content */}
                     <Box sx={{ p: 4, minHeight: '500px' }}>
                         <Outlet />
                     </Box>
