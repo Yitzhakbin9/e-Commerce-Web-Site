@@ -108,7 +108,7 @@ const Customers = () => {
                                         (products ?? []).map(p => ({
                                             products: p.name,
                                             qty: p.quantity,
-                                            date: p.createdAt,
+                                            date: createdAt?.toDate().toLocaleDateString('he-IL'),
                                         }))
                                     );
 
