@@ -2,8 +2,7 @@
 
 Still in development
 
-https://react-final-project-e9cde.web.app/login
-
+https://e-commerce-web-site-sooty.vercel.app/login
 
 # E-Commerce Web Application
 
