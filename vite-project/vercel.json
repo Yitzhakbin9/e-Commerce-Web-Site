@@ -1,5 +1,4 @@
 {
-  "_comment": "This rewrite rule is required for React Router. Vercel serves a static site and does not recognize client-side routes like /login or /users. The rewrite forces all routes to return index.html so React Router can handle navigation on the client side.",
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
   ]
