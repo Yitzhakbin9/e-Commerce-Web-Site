@@ -4,14 +4,18 @@ import { Box, Container, Paper, Autocomplete, TextField, Typography } from '@mui
 import usersRepo from '../../Repos/usersRepo.js'
 import { useEffect, useState } from "react"
 import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
+import ordersRepo from '../../Repos/ordersRepo.js'
+import { useMemo } from "react"
 
 
 const UserStatistics = () => {
 
     const [users, setUsers] = useState([])
-    const [chosenUser, setChosenUser] = useState(null)
-    const [barNames, setBarNames] = useState(['product'])
-    const [barQty, setBarQty] = useState([0])
+    const [usersWithOrders, setUsersWithOrders] = useState([])
+    const [chosenUser, setChosenUser] = useState({})
+    const [barNames, setBarNames] = useState([])
+    const [barQty, setBarQty] = useState([])
+    const [orders, setOrders] = useState([])
 
 
     useEffect(() => {
@@ -21,20 +25,45 @@ const UserStatistics = () => {
         return () => unsubscribe();
     }, [])
 
+    useEffect(() => {
+        const unsubscribe = ordersRepo.getAllOrders((ordersFromDb) => {
+            setOrders(ordersFromDb);
+        });
+        return () => unsubscribe();
+    }, [])
+
+    // This useMemo combines users with their orders.
+    const usersWithOrdersInfo = useMemo(() => {
+        const ordersByUserId = new Map();
+        orders.forEach(order => {
+            if (!ordersByUserId.has(order.userId)) {
+                ordersByUserId.set(order.userId, []);
+            }
+            ordersByUserId.get(order.userId).push(order);
+        });
+
+        const result = users.map(user => ({
+            ...user,
+            orders: ordersByUserId.get(user.id) || []
+        }));
+
+        setUsersWithOrders(result);
+        return result;
+    }, [users, orders]);
+
+
 
     useEffect(() => {
-        const chosen = users.filter((user) => user[USER_FIELDS.NAME] === chosenUser)
-        const products = chosen.flatMap(user => user[ORDERS_FIELDS.PRODUCTS])
 
-        if (products.length > 0) {
-            const name = products.map(p => p.name)
-            const qty = products.map(p => p.qty)
-            setBarNames(name)
-            setBarQty(qty)
-        } else {
-            setBarNames(['products'])
-            setBarQty([0])
-        }
+        const userOrders = usersWithOrders.find(user => user.id === chosenUser.id)?.orders || [];
+        const userProducts = userOrders.flatMap(order => order.products || []);
+
+        const chartData = userProducts.map(p => ({
+            name: p.name,
+            quantity: p.quantity
+        }));
+        setBarNames(chartData.map(d => d.name));
+        setBarQty(chartData.map(d => d.quantity));
     }, [chosenUser])
 
 
@@ -68,10 +97,16 @@ const UserStatistics = () => {
                             }
                         }}
                         disablePortal
-                        options={users.map((user) => user[USER_FIELDS.NAME])}
+                        options={users}
+                        getOptionLabel={(user) => user?.[USER_FIELDS.NAME] || ''}
                         renderInput={(params) => <TextField {...params} label="Choose a user" />}
                         onChange={(event, newValue) => {
-                            setChosenUser(newValue);
+                            console.log("Selected user:", newValue);
+                            if (!newValue) {
+                                setChosenUser({ id: '' }); // we dont want null here
+                            } else {
+                                setChosenUser(newValue);
+                            }
                         }}
                     />
                 </Paper>
@@ -79,7 +114,7 @@ const UserStatistics = () => {
                 {chosenUser && barQty.length > 0 && barQty[0] !== 0 && (
                     <Paper elevation={2} sx={{ p: 3, background: '#f8f9fa', borderRadius: 2 }}>
                         <Typography variant="h6" sx={{ mb: 3, color: '#333', fontWeight: '600' }}>
-                            Purchase History: {chosenUser}
+                            Purchase History: {chosenUser?.[USER_FIELDS.NAME]}
                         </Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'auto' }}>
                             <BarChart

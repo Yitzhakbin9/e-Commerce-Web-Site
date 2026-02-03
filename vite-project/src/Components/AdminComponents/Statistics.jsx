@@ -8,16 +8,8 @@ import UserStatistics from './UserStatistics.jsx';
 const Statistics = () => {
     return (
         <div>
-            <br />
-            <br />
-            <br />
-            <br />
             <TotalStatistics />
-            <br />
-            <br />
-            <br />
             <UserStatistics />
-
         </div>
     )
 }

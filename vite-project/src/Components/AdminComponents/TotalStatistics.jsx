@@ -23,13 +23,18 @@ const TotalStatistics = () => {
         console.log(categories);
     }, [categories]);
 
-
-    const data = [
-        { label: 'Clothing', value: 400, color: '#667eea' },
-        { label: 'Tech', value: 300, color: '#764ba2' },
-        { label: 'School', value: 300, color: '#FF6B6B' },
-        { label: 'Beauty', value: 200, color: '#4ECDC4' },
+    const colors = [
+        '#667eea', '#764ba2', '#FF6B6B', '#4ECDC4',
+        '#95E1D3', '#F38181', '#AA96DA', '#FCBAD3',
+        '#A8D8EA', '#FFABAB', '#FFC3A0', '#FFDAC1',
+        '#B4A7D6', '#D4A5A5', '#9CAFB7', '#E2C2B9'
     ];
+
+    const data = categories.map((c, index) => ({
+        label: c.name,
+        value: 200,
+        color: colors[index % colors.length]
+    }));
 
     const sizing = {
         margin: { right: 5 },
@@ -45,6 +50,8 @@ const TotalStatistics = () => {
         return `${(percent * 100).toFixed(0)}%`;
     };
 
+    // debugger;
+    // const a = categories.map(c => c.name);
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Paper elevation={3} sx={{ p: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
@@ -54,7 +61,7 @@ const TotalStatistics = () => {
             </Paper>
 
             <Box sx={{ mt: 4 }}>
-                <Paper elevation={2} sx={{ p: 4, background: '#f8f9fa', display: 'flex', justifyContent: 'center', borderRadius: 2 }}>
+                <Paper elevation={2} sx={{ p: 3, background: '#f8f9fa', display: 'flex', justifyContent: 'center', borderRadius: 2 }}>
                     <PieChart
                         series={[
                             {

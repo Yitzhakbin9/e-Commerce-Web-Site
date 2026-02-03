@@ -20,14 +20,14 @@ const GenericTableComponent = (props) => {
             <Table size={isNested ? "small" : "medium"} sx={{ minWidth: isNested ? 200 : 650 }}>
                 <TableHead>
                     <TableRow sx={{
-                        background: isNested ? '#f0f0f0' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                         border: isNested ? '2px solid #000' : undefined
                     }}>
                         {headers.map(h => (
                             <TableCell
                                 key={h.key}
                                 sx={{
-                                    color: isNested ? '#333' : 'white',
+                                    color: 'white',
                                     fontWeight: 'bold',
                                     fontSize: isNested ? '0.75rem' : '1rem',
                                     py: isNested ? 0.5 : 2,

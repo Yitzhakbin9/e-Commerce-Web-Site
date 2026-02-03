@@ -21,7 +21,7 @@ const LogIn = () => {
 
 
     async function handleClick() {
-
+debugger
         let userCred
         try {
             userCred = await login(user.email, user.password);
@@ -33,8 +33,14 @@ const LogIn = () => {
 
         const uid = userCred.user.uid;
         const userDoc = await usersRepo.getUserById(uid);
-        const role = userDoc._document.data.value.mapValue.fields.role
-
+        try{
+            const role = userDoc._document.data.value.mapValue.fields.role
+        }catch(e){
+            console.error("Error fetching user role:", e);
+            setError("An error occurred while fetching user data. Please try again.");
+            return;
+        }
+debugger
         if (role.stringValue === 'admin') {
             navigate('/admin')
         } else {
