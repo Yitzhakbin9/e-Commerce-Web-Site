@@ -21,7 +21,7 @@ const LogIn = () => {
 
 
     async function handleClick() {
-debugger
+
         let userCred
         try {
             userCred = await login(user.email, user.password);
@@ -40,7 +40,7 @@ debugger
             setError("An error occurred while fetching user data. Please try again.");
             return;
         }
-debugger
+
         if (role.stringValue === 'admin') {
             navigate('/admin')
         } else {

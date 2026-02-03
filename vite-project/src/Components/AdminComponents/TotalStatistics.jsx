@@ -3,6 +3,7 @@ import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart'
 import { Box, Container, Paper, Typography } from '@mui/material'
 import { useState, useEffect } from 'react';
 import categoriesRepo from '../../Repos/categoriesRepo.js'
+import productsRepo from '../../Repos/productsRepo.js'
 
 
 const TotalStatistics = () => {
@@ -10,6 +11,19 @@ const TotalStatistics = () => {
 
     const [categories, setCategories] = useState([])
     const [newCategoryName, setNewCategoryName] = useState('');
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+        const unsubscibe = productsRepo.getAllProducts((products) => {
+            setProducts(products);
+        });
+
+        return () => unsubscibe();
+    }, []);
+
+    useEffect(() => {
+        console.log("   products :", products);
+    }, [products])
 
 
     useEffect(() => {
@@ -20,7 +34,7 @@ const TotalStatistics = () => {
     }, [])
 
     useEffect(() => {
-        console.log(categories);
+        console.log("   categories :", categories);
     }, [categories]);
 
     const colors = [
@@ -30,9 +44,26 @@ const TotalStatistics = () => {
         '#B4A7D6', '#D4A5A5', '#9CAFB7', '#E2C2B9'
     ];
 
+    // Sum quantities by category
+    const quantitiesByCategory = products.reduce((acc, product) => {
+        const categoryName = product.categoryName || 'Uncategorized';
+        if (!acc[categoryName]) {
+            acc[categoryName] = 0;
+        }
+        acc[categoryName] += product.stockQty || 0;
+        return acc;
+    }, {});
+
+
+        useEffect(() => {
+        console.log("   quantitiesByCategory :", quantitiesByCategory);
+    }, [categories]);
+
+
+
     const data = categories.map((c, index) => ({
         label: c.name,
-        value: 200,
+        value: quantitiesByCategory[c.name] || 0,
         color: colors[index % colors.length]
     }));
 
@@ -50,8 +81,7 @@ const TotalStatistics = () => {
         return `${(percent * 100).toFixed(0)}%`;
     };
 
-    // debugger;
-    // const a = categories.map(c => c.name);
+
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Paper elevation={3} sx={{ p: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>

@@ -62,7 +62,7 @@ const NewProduct = (props) => {
     }
 
     function saveNewProductClick() {
-        debugger
+        
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
