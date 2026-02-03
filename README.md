@@ -4,6 +4,9 @@ Still in development
 
 https://e-commerce-web-site-sooty.vercel.app/login
 
+Admin credentials are available upon request.
+For Admin credetials please contact me at Yitzhakbin9@gmail.com
+
 # E-Commerce Web Application
 
 A full-stack e-commerce web application built with React, designed to support both **administration** and **customer** operation modes.
