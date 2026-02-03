@@ -4,13 +4,13 @@ import { Box, Container, Paper, Typography } from '@mui/material'
 import { useState, useEffect } from 'react';
 import categoriesRepo from '../../Repos/categoriesRepo.js'
 import productsRepo from '../../Repos/productsRepo.js'
+import { PRODUCTS_FIELDS } from '../../Constants/fields.js';
 
 
 const TotalStatistics = () => {
 
 
     const [categories, setCategories] = useState([])
-    const [newCategoryName, setNewCategoryName] = useState('');
     const [products, setProducts] = useState([])
 
     useEffect(() => {
@@ -46,11 +46,11 @@ const TotalStatistics = () => {
 
     // Sum quantities by category
     const quantitiesByCategory = products.reduce((acc, product) => {
-        const categoryName = product.categoryName || 'Uncategorized';
+        const categoryName = product[PRODUCTS_FIELDS.CATEGORY_NAME] || 'Uncategorized';
         if (!acc[categoryName]) {
             acc[categoryName] = 0;
         }
-        acc[categoryName] += product.stockQty || 0;
+        acc[categoryName] += product[PRODUCTS_FIELDS.STOCK_QTY] || 0;
         return acc;
     }, {});
 
