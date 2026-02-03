@@ -30,13 +30,20 @@ const LogIn = () => {
             setError(errorMsgFromFirebaseAuth(e.code));
             return
         }
-        debugger
         const uid = userCred.user.uid;
-        const userDoc = await usersRepo.getUserById(uid);
-        try {
-            const role = userDoc._document.data.value.mapValue.fields.role
+        const userDocSnapshot = await usersRepo.getUserById(uid);
 
-            if (role.stringValue === 'admin') {
+        try {
+            // Check if document exists
+            if (!userDocSnapshot.exists()) {
+                setError("User profile not found. Please contact support.");
+                return;
+            }
+
+            const userData = userDocSnapshot.data();
+            const role = userData.role;
+
+            if (role === 'admin') {
                 navigate('/admin')
             } else {
                 navigate('/customer')
