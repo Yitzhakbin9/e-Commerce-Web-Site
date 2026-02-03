@@ -3,9 +3,16 @@ import Registration from './Components/Registration'
 import Categories from './Components/AdminComponents/Categories.jsx'
 import AdminHomePage from './Components/AdminComponents/AdminHomePage.jsx'
 import Customers from './Components/AdminComponents/Customers.jsx'
-import { Route, Routes, Navigate } from "react-router-dom" //  react-router-dom - אחראית למעבר בין עמודים 
+import { Route, Routes, Navigate } from "react-router-dom" 
 import Products from './Components/AdminComponents/Products.jsx'
 import Statistics from './Components/AdminComponents/Statistics.jsx'
+import CustomerHomePage from './Components/CustomerComponents/CustomerHomePage.jsx'
+import Items from './Components/CustomerComponents/Items.jsx'
+import MyOrders from './Components/CustomerComponents/MyOrders.jsx'
+import MyAccount from './Components/CustomerComponents/MyAccount.jsx'
+import Logout from './Components/CustomerComponents/Logout.jsx'
+
+
 
 function App() {
 
@@ -27,8 +34,14 @@ function App() {
           <Route path="statistics" element={<Statistics />} />
         </Route>
 
-        <Route path="/customer" element={null} />
+        <Route path={"/customer"} element={<CustomerHomePage />}>
+          <Route path="items" element={<Items />} />
+          <Route path="orders" element={<MyOrders />} />
+          <Route path="account" element={<MyAccount />} />
+          <Route path="logout" element={<Logout />} />
+        </Route>
 
+    
       </Routes>
 
     </div>

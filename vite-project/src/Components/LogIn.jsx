@@ -30,21 +30,21 @@ const LogIn = () => {
             setError(errorMsgFromFirebaseAuth(e.code));
             return
         }
-
+        debugger
         const uid = userCred.user.uid;
         const userDoc = await usersRepo.getUserById(uid);
-        try{
+        try {
             const role = userDoc._document.data.value.mapValue.fields.role
-        }catch(e){
+
+            if (role.stringValue === 'admin') {
+                navigate('/admin')
+            } else {
+                navigate('/customer')
+            }
+        } catch (e) {
             console.error("Error fetching user role:", e);
             setError("An error occurred while fetching user data. Please try again.");
             return;
-        }
-
-        if (role.stringValue === 'admin') {
-            navigate('/admin')
-        } else {
-            navigate('/customer')
         }
     }
 

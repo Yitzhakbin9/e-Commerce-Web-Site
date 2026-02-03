@@ -135,15 +135,10 @@ const Customers = () => {
                                             </TableCell>
                                             <TableCell align="center" sx={{ py: 2 }}>
 
-                                                {
-
-                                                    <GenericTableComponent
-                                                        headers={headersForProductsTable}
-                                                        tableRow={tableRows}
-                                                        isNested={true}
-                                                    />
-                                                }
-
+                                                {<GenericTableComponent
+                                                    headers={headersForProductsTable}
+                                                    tableRow={tableRows}
+                                                    isNested={true} />}
                                             </TableCell>
                                         </TableRow>
                                     )

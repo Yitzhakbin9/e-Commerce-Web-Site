@@ -2,7 +2,12 @@ import React from 'react'
 
 const CustomersProducts = () => {
   return (
-    <div>CustomersProducts</div>
+    <div style={{border: "2px yellow solid"}}>
+    
+    
+    
+    
+    CustomersProducts</div>
   )
 }
 
