@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
 import '../../Css/styles.css';
 import FaceIcon from '@mui/icons-material/Face';
 import DataUsageIcon from '@mui/icons-material/DataUsage';
@@ -36,6 +38,14 @@ const CustomerHomePage = () => {
         navigate('/customer' + routes[newValue]);
     };
 
+    const handleLogout = () => {
+        // Clear any stored authentication data
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('customerData');
+        // Navigate to login page
+        navigate('/login');
+    };
+
     return (
         <Box sx={{
             minHeight: '100vh',
@@ -54,14 +64,37 @@ const CustomerHomePage = () => {
                         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                         color: 'white',
                         p: 3,
-                        textAlign: 'center'
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
                     }}>
-                        <Typography variant="h3" sx={{ fontWeight: 700 }}>
-                            Customer Dashboard
-                        </Typography>
-                        <Typography variant="subtitle1" sx={{ mt: 1, opacity: 0.9 }}>
-                            Manage your account and orders
-                        </Typography>
+                        <Box sx={{ textAlign: 'center', flex: 1 }}>
+                            <Typography variant="h3" sx={{ fontWeight: 700 }}>
+                                Customer Dashboard
+                            </Typography>
+                            <Typography variant="subtitle1" sx={{ mt: 1, opacity: 0.9 }}>
+                                Manage your account and orders
+                            </Typography>
+                        </Box>
+                        <Button
+                            variant="contained"
+                            color="inherit"
+                            startIcon={<LogoutIcon />}
+                            onClick={handleLogout}
+                            sx={{
+                                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                                },
+                                fontWeight: 600,
+                                textTransform: 'none',
+                                fontSize: '1rem',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            Logout
+                        </Button>
                     </Box>
 
                     <Tabs
