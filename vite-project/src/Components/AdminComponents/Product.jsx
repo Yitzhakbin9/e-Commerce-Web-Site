@@ -12,7 +12,7 @@ const Product = ({ productInfo }) => {
   return (
     <Card
       sx={{
-        height: '100%',
+        height: '400px',
         display: 'flex',
         flexDirection: 'column',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
@@ -26,23 +26,23 @@ const Product = ({ productInfo }) => {
       {productInfo[PRODUCTS_FIELDS.IMG_URL] && (
         <CardMedia
           component="img"
-          height="200"
+          height="180"
           image={productInfo[PRODUCTS_FIELDS.IMG_URL]}
           alt={productInfo[PRODUCTS_FIELDS.NAME]}
-          sx={{ objectFit: 'cover' }}
+          sx={{ objectFit: 'cover', flexShrink: 0 }}
         />
       )}
 
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, color: '#333', mb: 1 }}>
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, color: '#333', mb: 1, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
           {productInfo[PRODUCTS_FIELDS.NAME]}
         </Typography>
 
-        <Typography variant="body2" color="textSecondary" sx={{ mb: 2, minHeight: '40px', overflow: 'hidden' }}>
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 2, height: '40px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
           {productInfo[PRODUCTS_FIELDS.DESCRIPTION]}
         </Typography>
 
-        <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap', marginTop: 'auto' }}>
           <Chip
             label={`$${productInfo[PRODUCTS_FIELDS.PRICE]}`}
             sx={{

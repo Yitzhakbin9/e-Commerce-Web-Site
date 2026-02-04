@@ -10,8 +10,6 @@ import CustomerHomePage from './Components/CustomerComponents/CustomerHomePage.j
 import Items from './Components/CustomerComponents/Items.jsx'
 import MyOrders from './Components/CustomerComponents/MyOrders.jsx'
 import MyAccount from './Components/CustomerComponents/MyAccount.jsx'
-import Logout from './Components/CustomerComponents/Logout.jsx'
-
 
 
 function App() {
@@ -38,7 +36,6 @@ function App() {
           <Route path="items" element={<Items />} />
           <Route path="orders" element={<MyOrders />} />
           <Route path="account" element={<MyAccount />} />
-          <Route path="logout" element={<Logout />} />
         </Route>
 
 

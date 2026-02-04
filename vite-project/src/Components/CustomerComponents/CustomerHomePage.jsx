@@ -11,10 +11,9 @@ import '../../Css/styles.css';
 import FaceIcon from '@mui/icons-material/Face';
 import DataUsageIcon from '@mui/icons-material/DataUsage';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import CategoryIcon from '@mui/icons-material/Category';
 import { Outlet } from 'react-router-dom';
-import { useState , useEffect } from 'react';
-import { useLocation, useNavigate , useParams} from "react-router-dom"
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 
 const CustomerHomePage = () => {
@@ -41,12 +40,12 @@ const CustomerHomePage = () => {
         navigate(`/customer/${uid}` + routes[newValue]);
     };
 
-     // Navigate to categories by default when landing on /admin
-        useEffect(() => {
-            if (location.pathname === `/customer/${uid}`) {
-                navigate(`/customer/${uid}/items`);
-            }
-        }, []);
+    // Navigate to categories by default when landing on /admin
+    useEffect(() => {
+        if (location.pathname === `/customer/${uid}`) {
+            navigate(`/customer/${uid}/items`);
+        }
+    }, []);
 
     const handleLogout = () => {
         // Clear any stored authentication data
@@ -134,7 +133,6 @@ const CustomerHomePage = () => {
                         <Tab icon={<StorefrontIcon />} label="Products" iconPosition="start" />
                         <Tab icon={<DataUsageIcon />} label="My Orders" iconPosition="start" />
                         <Tab icon={<FaceIcon />} label="My Account" iconPosition="start" />
-                        <Tab icon={<CategoryIcon />} label="Log Out" iconPosition="start" />
                     </Tabs>
 
                     <Box sx={{ p: 4, minHeight: '500px' }}>
