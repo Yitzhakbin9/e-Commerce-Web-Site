@@ -10,11 +10,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import usersRepo from '../../Repos/usersRepo'
 import { USER_FIELDS } from '../../Constants/fields.js'
+import Alert from '@mui/material/Alert';
+import { errorMsgFromFirebaseAuth } from '../../Firebase/firebaseAuth.js';
+
 
 const MyAccount = () => {
 
     const { uid } = useParams();
     const [newUser, setNewUser] = useState({})
+    const [currentPassword, setCurrentPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const navigate = useNavigate();
@@ -31,32 +37,45 @@ const MyAccount = () => {
 
 
     async function handleClick() {
+
         // Validation
-        if (!newUser.firstName || !newUser.lastName || !newUser.userName || !newUser.email || !newUser.password) {
+        if (!newUser[USER_FIELDS.FIRST_NAME] || !newUser[USER_FIELDS.LAST_NAME] || !newUser[USER_FIELDS.USER_NAME] || !newUser[USER_FIELDS.EMAIL]) {
             setError('All fields are required');
             return;
         }
 
-        if (newUser.password.length < 6) {
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            setError('Please fill all password fields');
+            return;
+        }
+
+        if (newPassword.length < 6) {
             setError('Password must be at least 6 characters');
             return;
         }
 
+        if (newPassword !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+
         try {
-            const userCred = await register(newUser.email, newUser.password);
-            const userAdded = await usersRepo.createUserDoc(userCred.user.uid, {
-                [USER_FIELDS.EMAIL]: newUser.email,
-                [USER_FIELDS.ROLE]: "user",
-                [USER_FIELDS.CREATED_AT]: new Date(),
-                [USER_FIELDS.NAME]: newUser.firstName + " " + newUser.lastName,
-                [USER_FIELDS.USER_NAME]: newUser.userName,
+            const userUpdated = await usersRepo.updateUser(uid, {
+                [USER_FIELDS.FIRST_NAME]: newUser[USER_FIELDS.FIRST_NAME],
+                [USER_FIELDS.LAST_NAME]: newUser[USER_FIELDS.LAST_NAME],
+                [USER_FIELDS.USER_NAME]: newUser[USER_FIELDS.USER_NAME],
+                [USER_FIELDS.EMAIL]: newUser[USER_FIELDS.EMAIL],
             });
 
-            console.log("new user added -->  ", userAdded)
+            if (newPassword) {
+                await usersRepo.updateUserPassword(currentPassword, newPassword);
+            }
 
             setSuccess(true);
             setTimeout(() => {
-                navigate('/customer')
+                navigate(`/customer/${uid}/items`);
             }, 1500);
 
         } catch (e) {
@@ -78,7 +97,7 @@ const MyAccount = () => {
                     }}
                 >
                     <Typography variant="h3" sx={{ mb: 3, fontWeight: 700, color: '#667eea', textAlign: 'center' }}>
-                        Create Account
+                        Update Account
                     </Typography>
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -89,7 +108,7 @@ const MyAccount = () => {
                                 variant="outlined"
                                 value={newUser[USER_FIELDS.FIRST_NAME]}
                                 onChange={(e) => {
-                                    setNewUser({ ...newUser, firstName: e.target.value });
+                                    setNewUser({ ...newUser, [USER_FIELDS.FIRST_NAME]: e.target.value });
                                     setError('');
                                 }}
                                 sx={{
@@ -108,7 +127,7 @@ const MyAccount = () => {
                                 variant="outlined"
                                 value={newUser[USER_FIELDS.LAST_NAME]}
                                 onChange={(e) => {
-                                    setNewUser({ ...newUser, lastName: e.target.value });
+                                    setNewUser({ ...newUser, [USER_FIELDS.LAST_NAME]: e.target.value });
                                     setError('');
                                 }}
                                 sx={{
@@ -127,7 +146,7 @@ const MyAccount = () => {
                                 variant="outlined"
                                 value={newUser[USER_FIELDS.USER_NAME]}
                                 onChange={(e) => {
-                                    setNewUser({ ...newUser, userName: e.target.value });
+                                    setNewUser({ ...newUser, [USER_FIELDS.USER_NAME]: e.target.value });
                                     setError('');
                                 }}
                                 sx={{
@@ -140,17 +159,57 @@ const MyAccount = () => {
                         </Box>
 
                         <Box>
-                            <Typography sx={{ mb: 1, fontWeight: 500 }}>Password:</Typography>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>Current Password:</Typography>
                             <TextField
                                 fullWidth
                                 variant="outlined"
                                 type="password"
-                                value={newUser[USER_FIELDS.PASSWORD]}
+                                value={currentPassword}
                                 onChange={(e) => {
-                                    setNewUser({ ...newUser, password: e.target.value });
+                                    setCurrentPassword(e.target.value);
+                                    setError('');
+                                }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': { borderColor: '#667eea' },
+                                        '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                    },
+                                }}
+                            />
+                        </Box>
+
+                        <Box>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>New Password:</Typography>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => {
+                                    setNewPassword(e.target.value);
                                     setError('');
                                 }}
                                 helperText="At least 6 characters"
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': { borderColor: '#667eea' },
+                                        '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                    },
+                                }}
+                            />
+                        </Box>
+
+                        <Box>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>Confirm New Password:</Typography>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => {
+                                    setConfirmPassword(e.target.value);
+                                    setError('');
+                                }}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         '&:hover fieldset': { borderColor: '#667eea' },

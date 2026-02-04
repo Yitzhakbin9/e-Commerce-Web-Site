@@ -4,6 +4,7 @@ import { doc, setDoc } from "firebase/firestore";
 import db from "../Firebase/firebase"
 import { COLLECTIONS } from '../Constants/collections';
 import { USER_FIELDS } from '../Constants/fields';
+import { changePassword } from '../Firebase/firebaseAuth';
 
 const COLLECTION_NAME = COLLECTIONS.USERS
 
@@ -45,25 +46,16 @@ const updateUser = (id, obj) => {
   return firebaseCrudFunctions.update(COLLECTION_NAME, id, obj);
 };
 
-
-// const addPerson = (obj) => {
-//   // Option 1
-//   return Person.create(obj);
-//   // // Option 2
-//   // const per = new Person(obj);
-//   // return per.save();
-// };
-
-
-// const deletePerson = (id) => {
-//   return Person.findByIdAndDelete(id);
-// };
-
+// Update Password
+const updateUserPassword = (currentPassword, newPassword) => {
+  return changePassword(currentPassword, newPassword);
+};
 
 
 export default {
   getAllUsers,
   getUserById,
   createUserDoc,
-  updateUser
+  updateUser,
+  updateUserPassword
 };
