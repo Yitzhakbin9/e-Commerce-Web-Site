@@ -6,16 +6,28 @@ import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import '../../Css/styles.css';
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react"
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from "react"
 import usersRepo from '../../Repos/usersRepo'
+import { USER_FIELDS } from '../../Constants/fields.js'
 
 const MyAccount = () => {
 
-    const [newUser, setNewUser] = useState({ firstName: '', lastName: '', userName: '', email: '', password: '' })
+    const { uid } = useParams();
+    const [newUser, setNewUser] = useState({})
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (!uid) return;
+        const loadUser = async () => {
+            const userData = await usersRepo.getUserById(uid);
+            setNewUser(userData.data());
+        };
+        loadUser();
+    }, [uid]);
 
 
     async function handleClick() {
@@ -52,6 +64,8 @@ const MyAccount = () => {
         }
     }
 
+
+
     return (
         <div className="page">
             <Container maxWidth="sm">
@@ -67,101 +81,91 @@ const MyAccount = () => {
                         Create Account
                     </Typography>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <TextField
-                            fullWidth
-                            label="First Name"
-                            variant="outlined"
-                            value={newUser.firstName}
-                            onChange={(e) => {
-                                setNewUser({ ...newUser, firstName: e.target.value });
-                                setError('');
-                            }}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    '&:hover fieldset': { borderColor: '#667eea' },
-                                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
-                                },
-                            }}
-                        />
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                        <Box>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>First Name:</Typography>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={newUser[USER_FIELDS.FIRST_NAME]}
+                                onChange={(e) => {
+                                    setNewUser({ ...newUser, firstName: e.target.value });
+                                    setError('');
+                                }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': { borderColor: '#667eea' },
+                                        '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                    },
+                                }}
+                            />
+                        </Box>
 
-                        <TextField
-                            fullWidth
-                            label="Last Name"
-                            variant="outlined"
-                            value={newUser.lastName}
-                            onChange={(e) => {
-                                setNewUser({ ...newUser, lastName: e.target.value });
-                                setError('');
-                            }}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    '&:hover fieldset': { borderColor: '#667eea' },
-                                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
-                                },
-                            }}
-                        />
+                        <Box>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>Last Name:</Typography>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={newUser[USER_FIELDS.LAST_NAME]}
+                                onChange={(e) => {
+                                    setNewUser({ ...newUser, lastName: e.target.value });
+                                    setError('');
+                                }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': { borderColor: '#667eea' },
+                                        '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                    },
+                                }}
+                            />
+                        </Box>
 
-                        <TextField
-                            fullWidth
-                            label="Username"
-                            variant="outlined"
-                            value={newUser.userName}
-                            onChange={(e) => {
-                                setNewUser({ ...newUser, userName: e.target.value });
-                                setError('');
-                            }}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    '&:hover fieldset': { borderColor: '#667eea' },
-                                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
-                                },
-                            }}
-                        />
+                        <Box>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>User Name:</Typography>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={newUser[USER_FIELDS.USER_NAME]}
+                                onChange={(e) => {
+                                    setNewUser({ ...newUser, userName: e.target.value });
+                                    setError('');
+                                }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': { borderColor: '#667eea' },
+                                        '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                    },
+                                }}
+                            />
+                        </Box>
 
-                        <TextField
-                            fullWidth
-                            label="Email"
-                            variant="outlined"
-                            type="email"
-                            value={newUser.email}
-                            onChange={(e) => {
-                                setNewUser({ ...newUser, email: e.target.value });
-                                setError('');
-                            }}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    '&:hover fieldset': { borderColor: '#667eea' },
-                                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
-                                },
-                            }}
-                        />
-
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            variant="outlined"
-                            type="password"
-                            value={newUser.password}
-                            onChange={(e) => {
-                                setNewUser({ ...newUser, password: e.target.value });
-                                setError('');
-                            }}
-                            helperText="At least 6 characters"
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    '&:hover fieldset': { borderColor: '#667eea' },
-                                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
-                                },
-                            }}
-                        />
+                        <Box>
+                            <Typography sx={{ mb: 1, fontWeight: 500 }}>Password:</Typography>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                type="password"
+                                value={newUser[USER_FIELDS.PASSWORD]}
+                                onChange={(e) => {
+                                    setNewUser({ ...newUser, password: e.target.value });
+                                    setError('');
+                                }}
+                                helperText="At least 6 characters"
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': { borderColor: '#667eea' },
+                                        '&.Mui-focused fieldset': { borderColor: '#667eea' },
+                                    },
+                                }}
+                            />
+                        </Box>
 
                         {error && (
                             <Alert severity="error">{error}</Alert>
                         )}
 
                         {success && (
-                            <Alert severity="success">Registration successful! Redirecting...</Alert>
+                            <Alert severity="success">Account updated successfully! Redirecting...</Alert>
                         )}
 
                         <Button
@@ -181,25 +185,9 @@ const MyAccount = () => {
                                 }
                             }}
                         >
-                            Create Account
+                            Update Account
                         </Button>
 
-                        <Typography variant="body2" sx={{ textAlign: 'center', color: '#666', mt: 2 }}>
-                            Already have an account?{' '}
-                            <Typography
-                                component="a"
-                                href="/login"
-                                sx={{
-                                    color: '#667eea',
-                                    fontWeight: 600,
-                                    textDecoration: 'none',
-                                    cursor: 'pointer',
-                                    '&:hover': { textDecoration: 'underline' }
-                                }}
-                            >
-                                Log in
-                            </Typography>
-                        </Typography>
                     </Box>
                 </Paper>
             </Container>

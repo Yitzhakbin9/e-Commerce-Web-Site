@@ -32,10 +32,6 @@ const getAll = (callback, collName) => {
 };
 
 
-// The reason we use 'return await...' instead of 'await...'
-// is because we need the answer from the db to continue with our logic.
-// In add, update and delete functions, we can continue with the code without
-// getting the answer right away.
 const getById = async (collName, id) => {
     return await getDoc(doc(db, collName, id));
 };
@@ -43,18 +39,18 @@ const getById = async (collName, id) => {
 
 const add = async (collName, doc) => {
     const col = collection(db, collName)
-    await addDoc(col, doc)
+    return await addDoc(col, doc)
 }
 
-const update = async (collName, id, name) => {
+const update = async (collName, id, fieldsToUpdate) => {
     const userDoc = doc(db, collName, id)
-    updateDoc(userDoc, { name: name })
+    return await updateDoc(userDoc, fieldsToUpdate)
 }
 
 
 const remove = async (collName, id) => {
     const userDoc = doc(db, collName, id)
-    deleteDoc(userDoc)
+    return await deleteDoc(userDoc)
 }
 
 

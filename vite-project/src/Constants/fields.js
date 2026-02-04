@@ -1,6 +1,7 @@
 export const USER_FIELDS = {
     ID: 'id',
-    NAME: 'fullName',
+    FIRST_NAME: 'firstName',
+    LAST_NAME: 'lastName',
     EMAIL: 'email',
     ROLE: 'role',
     CREATED_AT: 'createdAt',

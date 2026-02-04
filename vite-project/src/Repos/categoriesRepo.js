@@ -24,7 +24,6 @@ const removeCategory = (id) => {
 
 
 
-
 export default {
   getAllCategories,
   addCategory,

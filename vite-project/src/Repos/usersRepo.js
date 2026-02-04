@@ -26,22 +26,24 @@ const getAllUsers = (callback) => {
 
 
 // Get By ID
-const getUserById = async (id) => {
+const getUserById = (id) => {
   console.log("Getting user by ID:", id);
-  return await firebaseCrudFunctions.getById(COLLECTION_NAME, id);
+  return firebaseCrudFunctions.getById(COLLECTION_NAME, id);
 };
 
-// // Create
+// Create
 
-const createUserDoc = async (uid, userData) => {
+const createUserDoc = (uid, userData) => {
   // We use setDoc function because we already have the userID
-  // we put await here because we want to get the userData and send it to the client
-  await setDoc(doc(db, COLLECTION_NAME, uid), userData);
+  setDoc(doc(db, COLLECTION_NAME, uid), userData);
   return userData;
 };
 
 
-
+// Update
+const updateUser = (id, obj) => {
+  return firebaseCrudFunctions.update(COLLECTION_NAME, id, obj);
+};
 
 
 // const addPerson = (obj) => {
@@ -52,10 +54,6 @@ const createUserDoc = async (uid, userData) => {
 //   // return per.save();
 // };
 
-// // Update
-// const updatePerson = (id, obj) => {
-//   return Person.findByIdAndUpdate(id, obj);
-// };
 
 // const deletePerson = (id) => {
 //   return Person.findByIdAndDelete(id);
@@ -66,5 +64,6 @@ const createUserDoc = async (uid, userData) => {
 export default {
   getAllUsers,
   getUserById,
-  createUserDoc
+  createUserDoc,
+  updateUser
 };

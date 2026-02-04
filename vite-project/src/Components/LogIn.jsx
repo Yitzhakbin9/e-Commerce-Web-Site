@@ -39,14 +39,13 @@ const LogIn = () => {
                 setError("User profile not found. Please contact support.");
                 return;
             }
-
             const userData = userDocSnapshot.data();
             const role = userData.role;
 
             if (role === 'admin') {
                 navigate('/admin')
             } else {
-                navigate('/customer')
+                navigate(`/customer/${uid}`)
             }
         } catch (e) {
             console.error("Error fetching user role:", e);

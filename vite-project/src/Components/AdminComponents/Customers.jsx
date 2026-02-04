@@ -63,7 +63,6 @@ const Customers = () => {
 
 
 
-
     const getProductCount = (products) => {
         return products ? products.length : 0
     }
@@ -128,7 +127,7 @@ const Customers = () => {
                                             }}
                                         >
                                             <TableCell sx={{ py: 2, fontWeight: '500', color: '#333' }}>
-                                                {user[USER_FIELDS.NAME]}
+                                                {user[USER_FIELDS.FIRST_NAME] + " " + user[USER_FIELDS.LAST_NAME]}
                                             </TableCell>
                                             <TableCell align="center" sx={{ py: 2, color: '#666' }}>
                                                 {user[USER_FIELDS.CREATED_AT]}

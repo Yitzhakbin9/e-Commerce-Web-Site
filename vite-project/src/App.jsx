@@ -3,7 +3,7 @@ import Registration from './Components/Registration'
 import Categories from './Components/AdminComponents/Categories.jsx'
 import AdminHomePage from './Components/AdminComponents/AdminHomePage.jsx'
 import Customers from './Components/AdminComponents/Customers.jsx'
-import { Route, Routes, Navigate } from "react-router-dom" 
+import { Route, Routes, Navigate } from "react-router-dom"
 import Products from './Components/AdminComponents/Products.jsx'
 import Statistics from './Components/AdminComponents/Statistics.jsx'
 import CustomerHomePage from './Components/CustomerComponents/CustomerHomePage.jsx'
@@ -34,14 +34,14 @@ function App() {
           <Route path="statistics" element={<Statistics />} />
         </Route>
 
-        <Route path={"/customer"} element={<CustomerHomePage />}>
+        <Route path={"/customer/:uid"} element={<CustomerHomePage />}>
           <Route path="items" element={<Items />} />
           <Route path="orders" element={<MyOrders />} />
           <Route path="account" element={<MyAccount />} />
           <Route path="logout" element={<Logout />} />
         </Route>
 
-    
+
       </Routes>
 
     </div>

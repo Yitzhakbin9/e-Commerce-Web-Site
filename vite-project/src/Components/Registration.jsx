@@ -39,7 +39,8 @@ const Registration = () => {
                 [USER_FIELDS.EMAIL]: newUser.email,
                 [USER_FIELDS.ROLE]: "user",
                 [USER_FIELDS.CREATED_AT]: new Date(),
-                [USER_FIELDS.NAME]: newUser.firstName + " " + newUser.lastName,
+                [USER_FIELDS.FIRST_NAME]: newUser.firstName,
+                [USER_FIELDS.LAST_NAME]: newUser.lastName,
                 [USER_FIELDS.USER_NAME]: newUser.userName,
             });
 

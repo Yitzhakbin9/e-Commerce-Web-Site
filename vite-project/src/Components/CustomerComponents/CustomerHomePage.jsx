@@ -13,13 +13,16 @@ import DataUsageIcon from '@mui/icons-material/DataUsage';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
-import { useLocation, useNavigate } from "react-router-dom"
+import { useState , useEffect } from 'react';
+import { useLocation, useNavigate , useParams} from "react-router-dom"
 
 
 const CustomerHomePage = () => {
+
     const navigate = useNavigate();
     const location = useLocation();
+    const { uid } = useParams();
+
 
     // Map route to tab value
     const getTabValue = () => {
@@ -35,8 +38,15 @@ const CustomerHomePage = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
         const routes = ['/items', '/orders', '/account', '/logout'];
-        navigate('/customer' + routes[newValue]);
+        navigate(`/customer/${uid}` + routes[newValue]);
     };
+
+     // Navigate to categories by default when landing on /admin
+        useEffect(() => {
+            if (location.pathname === `/customer/${uid}`) {
+                navigate(`/customer/${uid}/items`);
+            }
+        }, []);
 
     const handleLogout = () => {
         // Clear any stored authentication data
