@@ -98,7 +98,7 @@ const UserStatistics = () => {
                         }}
                         disablePortal
                         options={users}
-                        getOptionLabel={(user) => user?.[USER_FIELDS.NAME] || ''}
+                        getOptionLabel={(user) => user?.[USER_FIELDS.FIRST_NAME] + ' ' + user?.[USER_FIELDS.LAST_NAME] || ''}
                         renderInput={(params) => <TextField {...params} label="Choose a user" />}
                         onChange={(event, newValue) => {
                             console.log("Selected user:", newValue);
