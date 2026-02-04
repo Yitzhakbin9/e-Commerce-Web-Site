@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import usersRepo from '../../Repos/usersRepo.js'
 import ordersRepo from '../../Repos/ordersRepo.js'
-import { USER_FIELDS, ORDERS_FIELDS } from '../../Constants/fields.js'
+import { USER_FIELDS, ORDER_PRODUCT_FIELDS } from '../../Constants/fields.js'
 import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Box } from '@mui/material'
 import GenericTableComponent from "../GenericTableComponent.jsx"
 import { useMemo } from "react"
@@ -105,8 +105,8 @@ const Customers = () => {
 
                                     const tableRows = userOrders.flatMap(({ createdAt, products }) =>
                                         (products ?? []).map(p => ({
-                                            products: p.name,
-                                            qty: p.quantity,
+                                            products: p[ORDER_PRODUCT_FIELDS.NAME],
+                                            qty: p[ORDER_PRODUCT_FIELDS.QUANTITY],
                                             date: createdAt?.toDate().toLocaleDateString('he-IL'),
                                         }))
                                     );

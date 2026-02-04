@@ -35,3 +35,10 @@ export const PRODUCTS_FIELDS = {
     STOCK_QTY: 'stockQty',
     CATEGORY_NAME: 'categoryName',
 };
+
+export const ORDER_PRODUCT_FIELDS = {
+    PRODUCT_ID: 'productId',
+    NAME: 'name',
+    UNIT_PRICE: 'unitPrice',
+    QUANTITY: 'quantity',
+};
