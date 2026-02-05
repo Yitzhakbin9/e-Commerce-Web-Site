@@ -12,8 +12,8 @@ const Items = () => {
 
 
   return (
-    <div style={{ border: "2px red solid" }}>
-        Products to buy
+    <div>
+        <h1>In Development</h1>
     
     </div>
   )

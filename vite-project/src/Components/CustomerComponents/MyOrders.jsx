@@ -23,11 +23,9 @@ const MyOrders = () => {
 
 
   useEffect(() => {
-    console.log("Orders fetched: ", orders);
     const userOrders = orders.filter(order => order[ORDERS_FIELDS.USER_ID] === uid)
-    console.log("uid: ", uid);
-    console.log("User Orders fetched: ", userOrders);
-    setUserOrders(userOrders);
+    console.log("userOrders :", userOrders);
+    setUserOrders(userOrders); 
   }, [orders]);
 
 

@@ -12,6 +12,7 @@ const Product = ({ productInfo }) => {
   return (
     <Card
       sx={{
+        width: '250px',
         height: '400px',
         display: 'flex',
         flexDirection: 'column',
@@ -26,10 +27,10 @@ const Product = ({ productInfo }) => {
       {productInfo[PRODUCTS_FIELDS.IMG_URL] && (
         <CardMedia
           component="img"
-          height="180"
+          height="150"
           image={productInfo[PRODUCTS_FIELDS.IMG_URL]}
           alt={productInfo[PRODUCTS_FIELDS.NAME]}
-          sx={{ objectFit: 'cover', flexShrink: 0 }}
+          sx={{ objectFit: 'cover', flexShrink: 0, width: '100%' }}
         />
       )}
 

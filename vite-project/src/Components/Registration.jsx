@@ -43,12 +43,12 @@ const Registration = () => {
                 [USER_FIELDS.LAST_NAME]: newUser.lastName,
                 [USER_FIELDS.USER_NAME]: newUser.userName,
             });
-
+            debugger
             console.log("new user added -->  ", userAdded)
 
             setSuccess(true);
             setTimeout(() => {
-                navigate('/customer')
+                navigate(`/customer/${userCred.user.uid}`)
             }, 1500);
 
         } catch (e) {

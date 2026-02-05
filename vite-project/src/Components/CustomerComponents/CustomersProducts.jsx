@@ -7,7 +7,9 @@ const CustomersProducts = () => {
     
     
     
-    CustomersProducts</div>
+    CustomersProducts
+    
+    </div>
   )
 }
 
