@@ -3,9 +3,10 @@
 Still in development
 
 https://e-commerce-web-site-sooty.vercel.app/login
-
-Admin credentials are available upon request.
-For Admin credetials please contact me at Yitzhakbin9@gmail.com
+To enter as Admin:
+  yitzhakbin99@gmail.com
+password:
+  123456
 
 # E-Commerce Web Application
 
