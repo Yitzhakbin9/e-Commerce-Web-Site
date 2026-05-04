@@ -2,9 +2,12 @@
 
 Still in development
 
-https://e-commerce-web-site-sooty.vercel.app/login
+https://e-commerce-web-site-sooty.vercel.app/login 
+
+
 To enter as Admin:
   yitzhakbin99@gmail.com
+  
 password:
   123456
 
