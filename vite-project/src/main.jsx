@@ -3,6 +3,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import { Analytics } from "@vercel/analytics/react";
 
 const theme = createTheme({
     palette: {
@@ -18,11 +19,12 @@ const theme = createTheme({
     },
 })
 
-createRoot(document.getElementById('root')).render(
-    <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </ThemeProvider>
-)
+createRoot(document.getElementById("root")).render(
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <BrowserRouter>
+      <App />
+      <Analytics />
+    </BrowserRouter>
+  </ThemeProvider>,
+);
