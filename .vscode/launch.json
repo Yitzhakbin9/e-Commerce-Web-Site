@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Client (Vite + Chrome)",
+      "configurations": [
+        "Client (Start Vite)",
+        "Client (Chrome)"
+      ],
+      "stopAll": true
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Client (Start Vite)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/vite-project"
+    },
+    {
+      "name": "Client (Chrome)",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/vite-project",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "/src/*": "${webRoot}/src/*",
+        "/@fs/*": "*",
+        "/*": "${webRoot}/*"
+      }
+    }
+  ]
+}
