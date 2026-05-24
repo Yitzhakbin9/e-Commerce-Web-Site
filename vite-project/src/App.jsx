@@ -10,6 +10,7 @@ import CustomerHomePage from './Components/CustomerComponents/CustomerHomePage.j
 import Items from './Components/CustomerComponents/Items.jsx'
 import MyOrders from './Components/CustomerComponents/MyOrders.jsx'
 import MyAccount from './Components/CustomerComponents/MyAccount.jsx'
+import ProtectedRoute from './Components/ProtectedRoute.jsx'
 
 
 function App() {
@@ -25,17 +26,21 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
 
-        <Route path={"/admin"} element={<AdminHomePage />}>
-          <Route path="categories" element={<Categories />} />
-          <Route path="products" element={<Products />} />
-          <Route path="customers" element={<Customers />} />
-          <Route path="statistics" element={<Statistics />} />
+        <Route element={<ProtectedRoute allowedRole="admin" />}>
+          <Route path={"/admin"} element={<AdminHomePage />}>
+            <Route path="categories" element={<Categories />} />
+            <Route path="products" element={<Products />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="statistics" element={<Statistics />} />
+          </Route>
         </Route>
 
-        <Route path={"/customer/:uid"} element={<CustomerHomePage />}>
-          <Route path="items" element={<Items />} />
-          <Route path="orders" element={<MyOrders />} />
-          <Route path="account" element={<MyAccount />} />
+        <Route element={<ProtectedRoute allowedRole="user" />}>
+          <Route path={"/customer/:uid"} element={<CustomerHomePage />}>
+            <Route path="items" element={<Items />} />
+            <Route path="orders" element={<MyOrders />} />
+            <Route path="account" element={<MyAccount />} />
+          </Route>
         </Route>
 
 
