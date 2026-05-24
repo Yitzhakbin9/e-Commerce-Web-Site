@@ -15,6 +15,7 @@ const CustomersProducts = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedQuantities, setSelectedQuantities] = useState({});
 
   useEffect(() => {
     const unsubscribe = productsRepo.getAllProducts((productsFromDb) => {
@@ -46,6 +47,21 @@ const CustomersProducts = () => {
 
     return matchesSearch && matchesCategory;
   });
+
+  const updateProductQuantity = (productId, delta, stockQty) => {
+    setSelectedQuantities((currentQuantities) => {
+      const currentQuantity = Number(currentQuantities[productId] ?? 0);
+      const nextQuantity = Math.max(
+        0,
+        Math.min(stockQty, currentQuantity + delta),
+      );
+
+      return {
+        ...currentQuantities,
+        [productId]: nextQuantity,
+      };
+    });
+  };
 
   return (
     <Box>
@@ -80,7 +96,11 @@ const CustomersProducts = () => {
       <Grid container spacing={3}>
         {filteredProducts.map((product) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-            <CustomerProductCard product={product} />
+            <CustomerProductCard
+              product={product}
+              selectedQty={Number(selectedQuantities[product.id] ?? 0)}
+              onQuantityChange={updateProductQuantity}
+            />
           </Grid>
         ))}
       </Grid>
