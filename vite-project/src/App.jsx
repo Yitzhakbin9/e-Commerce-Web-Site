@@ -11,16 +11,15 @@ import Items from './Components/CustomerComponents/Items.jsx'
 import MyOrders from './Components/CustomerComponents/MyOrders.jsx'
 import MyAccount from './Components/CustomerComponents/MyAccount.jsx'
 import ProtectedRoute from './Components/ProtectedRoute.jsx'
+import CustomersProducts from "./Components/CustomerComponents/CustomersProducts.jsx";
 
 
 function App() {
 
   return (
     <div>
-
       {/* ROUTS: */}
       <Routes>
-
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         <Route path="/login" element={<LogIn />} />
@@ -37,17 +36,14 @@ function App() {
 
         <Route element={<ProtectedRoute allowedRole="user" />}>
           <Route path={"/customer/:uid"} element={<CustomerHomePage />}>
-            <Route path="items" element={<Items />} />
+            <Route path="items" element={<CustomersProducts />} />
             <Route path="orders" element={<MyOrders />} />
             <Route path="account" element={<MyAccount />} />
           </Route>
         </Route>
-
-
       </Routes>
-
     </div>
-  )
+  );
 }
 
 export default App
