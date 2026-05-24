@@ -32,10 +32,6 @@ const Customers = () => {
         return () => unsubscribe();
     }, [])
 
-    useEffect(() => {
-        // console.log("users :", users);
-        // console.log("orders :", orders);
-    }, [users]);
 
     // We use useMemo beacause we need this function to run only if users or orders 
     // changed and not on every render
@@ -55,12 +51,6 @@ const Customers = () => {
             orders: ordersByUserId.get(user.id) || []
         }));
     }, [users, orders]);
-
-
-    useEffect(() => {
-        // console.log("usersWithOrders :", usersWithOrders);
-    }, [usersWithOrders]);
-
 
 
     const getProductCount = (products) => {
@@ -98,11 +88,7 @@ const Customers = () => {
 
                                 users.map((user, index) => {
 
-                                    console.log("usersWithOrders", usersWithOrders);
                                     const userOrders = usersWithOrders.find(u => u.id === user.id)?.orders || [];
-
-                                    console.log("userOrders for user", userOrders);
-
                                     const tableRows = userOrders.flatMap(({ createdAt, products }) =>
                                         (products ?? []).map(p => ({
                                             products: p[ORDER_PRODUCT_FIELDS.NAME],
@@ -111,7 +97,6 @@ const Customers = () => {
                                         }))
                                     );
 
-                                    console.log("tableRows", tableRows);
 
                                     return (
                                         <TableRow
