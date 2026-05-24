@@ -1,6 +1,13 @@
 import React from "react";
-import { InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const ProductsFilterBar = ({ searchTerm, onSearchChange }) => {
   return (
@@ -25,6 +32,18 @@ const ProductsFilterBar = ({ searchTerm, onSearchChange }) => {
           startAdornment: (
             <InputAdornment position="start">
               <SearchIcon sx={{ color: "#667eea" }} />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                size="small"
+                onClick={() => onSearchChange("")}
+                edge="end"
+                aria-label="clear search"
+              >
+                <ClearIcon fontSize="small" />
+              </IconButton>
             </InputAdornment>
           ),
         }}
