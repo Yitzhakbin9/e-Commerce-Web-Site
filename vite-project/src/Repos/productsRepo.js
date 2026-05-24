@@ -14,10 +14,13 @@ const addProduct = (doc) => {
   return firebaseCrudFunctions.add(COLLECTION_NAME, doc);
 };
 
+const updateProduct = (id, fieldsToUpdate) => {
+  return firebaseCrudFunctions.update(COLLECTION_NAME, id, fieldsToUpdate);
+};
 
 export default {
   getAllProducts,
-  addProduct
+  addProduct,
+  updateProduct
 };
-
 
