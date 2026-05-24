@@ -35,18 +35,17 @@ const CustomerHomePage = () => {
 
     const [value, setValue] = useState(getTabValue());
 
-    const handleChange = (event, newValue) => {
+    const handleNavChange = (event, newValue) => {
         setValue(newValue);
         const routes = ['/items', '/orders', '/account', '/logout'];
         navigate(`/customer/${uid}` + routes[newValue]);
     };
 
-    // Navigate to categories by default when landing on /admin
     useEffect(() => {
         if (location.pathname === `/customer/${uid}`) {
             navigate(`/customer/${uid}/items`);
         }
-    }, []);
+    }, [location.pathname, navigate, uid]);
 
     const handleLogout = async () => {
         await logout();
@@ -106,7 +105,7 @@ const CustomerHomePage = () => {
 
                     <Tabs
                         value={value}
-                        onChange={handleChange}
+                        onChange={handleNavChange}
                         variant="fullWidth"
                         sx={{
                             background: 'white',
