@@ -8,7 +8,8 @@ import Paper from '@mui/material/Paper';
 import '../Css/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react"
-import { login, errorMsgFromFirebaseAuth } from '../Firebase/firebaseAuth'
+import { useAuth } from '../Contexts/AuthContext';
+import { login, logout, saveAuthSession, errorMsgFromFirebaseAuth } from '../Firebase/firebaseAuth'
 import usersRepo from '../Repos/usersRepo'
 
 
@@ -18,6 +19,7 @@ const LogIn = () => {
     const [user, setUser] = useState({ email: '', password: '' })
     const [error, setError] = useState('')
     const navigate = useNavigate();
+    const { syncAuthSession } = useAuth();
 
 
     async function handleClick() {
@@ -30,17 +32,21 @@ const LogIn = () => {
             setError(errorMsgFromFirebaseAuth(e.code));
             return
         }
-        const uid = userCred.user.uid;
-        const userDocSnapshot = await usersRepo.getUserById(uid);
-
         try {
+            const uid = userCred.user.uid;
+            const userDocSnapshot = await usersRepo.getUserById(uid);
+
             // Check if document exists
             if (!userDocSnapshot.exists()) {
+                await logout();
                 setError("User profile not found. Please contact support.");
                 return;
             }
+
             const userData = userDocSnapshot.data();
             const role = userData.role;
+            const session = await saveAuthSession(userCred.user, role);
+            syncAuthSession(userCred.user, session);
 
             if (role === 'admin') {
                 navigate('/admin')
@@ -49,6 +55,7 @@ const LogIn = () => {
             }
         } catch (e) {
             console.error("Error fetching user role:", e);
+            await logout();
             setError("An error occurred while fetching user data. Please try again.");
             return;
         }

@@ -14,6 +14,7 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { logout } from '../../Firebase/firebaseAuth';
 
 
 const CustomerHomePage = () => {
@@ -47,11 +48,8 @@ const CustomerHomePage = () => {
         }
     }, []);
 
-    const handleLogout = () => {
-        // Clear any stored authentication data
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('customerData');
-        // Navigate to login page
+    const handleLogout = async () => {
+        await logout();
         navigate('/login');
     };
 

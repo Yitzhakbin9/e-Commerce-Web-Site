@@ -7,7 +7,8 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import '../Css/styles.css';
-import { register, errorMsgFromFirebaseAuth } from '../Firebase/firebaseAuth';
+import { register, saveAuthSession, errorMsgFromFirebaseAuth } from '../Firebase/firebaseAuth';
+import { useAuth } from '../Contexts/AuthContext';
 import usersRepo from '../Repos/usersRepo'
 import { useNavigate } from 'react-router-dom';
 import { USER_FIELDS } from '../Constants/fields';
@@ -19,6 +20,7 @@ const Registration = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const navigate = useNavigate();
+    const { syncAuthSession } = useAuth();
 
 
     async function handleClick() {
@@ -43,7 +45,8 @@ const Registration = () => {
                 [USER_FIELDS.LAST_NAME]: newUser.lastName,
                 [USER_FIELDS.USER_NAME]: newUser.userName,
             });
-            debugger
+            const session = await saveAuthSession(userCred.user, "user");
+            syncAuthSession(userCred.user, session);
             console.log("new user added -->  ", userAdded)
 
             setSuccess(true);

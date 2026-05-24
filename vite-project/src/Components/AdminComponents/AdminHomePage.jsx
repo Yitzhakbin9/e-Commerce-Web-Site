@@ -15,6 +15,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom"
+import { logout } from '../../Firebase/firebaseAuth';
 
 
 const AdminHomePage = () => {
@@ -45,13 +46,8 @@ const AdminHomePage = () => {
         navigate(routes[newValue]);
     };
 
-    const handleLogout = () => {
-
-        // TODO: Implement actual logout logic here!
-        // Clear any stored authentication data
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('adminData');
-        // Navigate to login page
+    const handleLogout = async () => {
+        await logout();
         navigate('/login');
     };
 
