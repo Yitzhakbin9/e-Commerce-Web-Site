@@ -3,7 +3,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   Chip,
   IconButton,
   Typography,
@@ -11,6 +10,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { PRODUCTS_FIELDS } from "../../Constants/fields.js";
+import ProductImagePreview from "./ProductImagePreview.jsx";
 
 const CustomerProductCard = ({
   product,
@@ -32,30 +32,10 @@ const CustomerProductCard = ({
         overflow: "hidden",
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          aspectRatio: "4 / 3",
-          overflow: "hidden",
-          backgroundColor: "#f4f6fb",
-          flexShrink: 0,
-        }}
-      >
-        {product[PRODUCTS_FIELDS.IMG_URL] ? (
-          <CardMedia
-            component="img"
-            image={product[PRODUCTS_FIELDS.IMG_URL]}
-            alt={product[PRODUCTS_FIELDS.NAME]}
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              display: "block",
-            }}
-          />
-        ) : null}
-      </Box>
+      <ProductImagePreview
+        imageUrl={product[PRODUCTS_FIELDS.IMG_URL]}
+        alt={product[PRODUCTS_FIELDS.NAME]}
+      />
 
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
         <Typography
