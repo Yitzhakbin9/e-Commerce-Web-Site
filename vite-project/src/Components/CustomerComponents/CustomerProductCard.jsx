@@ -23,10 +23,13 @@ const CustomerProductCard = ({
     <Card
       sx={{
         height: "100%",
+        width: "100%",
+        minWidth: 0,
         display: "flex",
         flexDirection: "column",
         borderRadius: 3,
         boxShadow: "0 10px 30px rgba(47,59,102,0.10)",
+        overflow: "hidden",
       }}
     >
       {product[PRODUCTS_FIELDS.IMG_URL] && (
@@ -40,11 +43,31 @@ const CustomerProductCard = ({
       )}
 
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, color: "#24304f" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            color: "#24304f",
+            overflowWrap: "anywhere",
+            wordBreak: "break-word",
+          }}
+        >
           {product[PRODUCTS_FIELDS.NAME]}
         </Typography>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            overflowWrap: "anywhere",
+            wordBreak: "break-word",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            minHeight: "4.5em",
+          }}
+        >
           {product[PRODUCTS_FIELDS.DESCRIPTION]}
         </Typography>
 

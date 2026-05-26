@@ -7,7 +7,6 @@ import { Route, Routes, Navigate } from "react-router-dom"
 import Products from './Components/AdminComponents/Products.jsx'
 import Statistics from './Components/AdminComponents/Statistics.jsx'
 import CustomerHomePage from './Components/CustomerComponents/CustomerHomePage.jsx'
-import Items from './Components/CustomerComponents/Items.jsx'
 import MyOrders from './Components/CustomerComponents/MyOrders.jsx'
 import MyAccount from './Components/CustomerComponents/MyAccount.jsx'
 import ProtectedRoute from './Components/ProtectedRoute.jsx'

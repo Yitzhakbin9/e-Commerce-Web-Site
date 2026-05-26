@@ -220,9 +220,13 @@ const CustomersProducts = () => {
         </Box>
 
         <Box>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} alignItems="stretch">
             {filteredProducts.map((product) => (
-              <Grid item xs={12} sm={6} xl={4} key={product.id}>
+              <Grid
+                key={product.id}
+                size={{ xs: 12, sm: 6, lg: 4 }}
+                sx={{ display: "flex" }}
+              >
                 <CustomerProductCard
                   product={product}
                   selectedQty={Number(selectedQuantities[product.id] ?? 0)}
