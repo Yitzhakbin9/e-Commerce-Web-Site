@@ -116,16 +116,26 @@ const CustomersProducts = () => {
         </Box>
       </Stack>
 
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid item xs={12} md={4}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "320px minmax(0, 1fr)",
+          },
+          gap: 3,
+          alignItems: "start",
+        }}
+      >
+        <Box>
           <CartSummary
             cartItems={cartItems}
             cartTotal={cartTotal}
             totalSelectedUnits={totalSelectedUnits}
           />
-        </Grid>
+        </Box>
 
-        <Grid item xs={12} md={8}>
+        <Box>
           <Grid container spacing={3}>
             {filteredProducts.map((product) => (
               <Grid item xs={12} sm={6} xl={4} key={product.id}>
@@ -137,8 +147,8 @@ const CustomersProducts = () => {
               </Grid>
             ))}
           </Grid>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 };
