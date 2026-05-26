@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 import categoriesRepo from "../../Repos/categoriesRepo.js";
+import ordersRepo from "../../Repos/ordersRepo.js";
 import productsRepo from "../../Repos/productsRepo.js";
+import usersRepo from "../../Repos/usersRepo.js";
 import {
   CATEGORY_FIELDS,
+  ORDER_PRODUCT_FIELDS,
+  ORDERS_FIELDS,
+  USER_FIELDS,
   PRODUCTS_FIELDS,
 } from "../../Constants/fields.js";
 import CartSummary from "./CartSummary.jsx";
@@ -12,11 +18,16 @@ import ProductsCategoryFilter from "./ProductsCategoryFilter.jsx";
 import ProductsFilterBar from "./ProductsFilterBar.jsx";
 
 const CustomersProducts = () => {
+  const { uid } = useParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedQuantities, setSelectedQuantities] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isOrdering, setIsOrdering] = useState(false);
+  const [orderError, setOrderError] = useState("");
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   useEffect(() => {
     const unsubscribe = productsRepo.getAllProducts((productsFromDb) => {
@@ -33,6 +44,22 @@ const CustomersProducts = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!uid) {
+      return;
+    }
+
+    const loadUser = async () => {
+      const userSnapshot = await usersRepo.getUserById(uid);
+
+      if (userSnapshot.exists()) {
+        setCurrentUser(userSnapshot.data());
+      }
+    };
+
+    loadUser();
+  }, [uid]);
 
   const filteredProducts = products.filter((product) => {
     const productName = product[PRODUCTS_FIELDS.NAME] ?? "";
@@ -72,6 +99,9 @@ const CustomersProducts = () => {
   );
 
   const updateProductQuantity = (productId, delta, stockQty) => {
+    setOrderError("");
+    setOrderSuccess(false);
+
     setSelectedQuantities((currentQuantities) => {
       const currentQuantity = Number(currentQuantities[productId] ?? 0);
       const nextQuantity = Math.max(
@@ -84,6 +114,55 @@ const CustomersProducts = () => {
         [productId]: nextQuantity,
       };
     });
+  };
+
+  const handleClearAll = () => {
+    setSelectedQuantities({});
+    setOrderError("");
+    setOrderSuccess(false);
+  };
+
+  const handleOrder = async () => {
+    if (cartItems.length === 0 || isOrdering) {
+      return;
+    }
+
+    setIsOrdering(true);
+    setOrderError("");
+    setOrderSuccess(false);
+
+    const userName =
+      currentUser?.[USER_FIELDS.USER_NAME] ||
+      [currentUser?.[USER_FIELDS.FIRST_NAME], currentUser?.[USER_FIELDS.LAST_NAME]]
+        .filter(Boolean)
+        .join(" ") ||
+      uid;
+
+    const orderProducts = cartItems.map((item) => ({
+      [ORDER_PRODUCT_FIELDS.PRODUCT_ID]: item.id,
+      [ORDER_PRODUCT_FIELDS.NAME]: item.name,
+      [ORDER_PRODUCT_FIELDS.UNIT_PRICE]: item.price,
+      [ORDER_PRODUCT_FIELDS.QUANTITY]: item.quantity,
+    }));
+
+    try {
+      await ordersRepo.addOrder({
+        [ORDERS_FIELDS.USER_ID]: uid,
+        [ORDERS_FIELDS.USER_NAME]: userName,
+        [ORDERS_FIELDS.STATUS]: "pending",
+        [ORDERS_FIELDS.TOTAL_PRICE]: cartTotal,
+        [ORDERS_FIELDS.CREATED_AT]: new Date(),
+        [ORDERS_FIELDS.PRODUCTS]: orderProducts,
+      });
+
+      setSelectedQuantities({});
+      setOrderSuccess(true);
+    } catch (error) {
+      console.error("Failed to save order:", error);
+      setOrderError("Could not save the order. Please try again.");
+    } finally {
+      setIsOrdering(false);
+    }
   };
 
   return (
@@ -132,6 +211,11 @@ const CustomersProducts = () => {
             cartItems={cartItems}
             cartTotal={cartTotal}
             totalSelectedUnits={totalSelectedUnits}
+            onOrder={handleOrder}
+            onClearAll={handleClearAll}
+            isOrdering={isOrdering}
+            orderError={orderError}
+            orderSuccess={orderSuccess}
           />
         </Box>
 

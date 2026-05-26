@@ -2,13 +2,23 @@ import React from "react";
 import {
   Alert,
   Box,
+  Button,
+  Stack,
   Divider,
   Paper,
-  Stack,
   Typography,
 } from "@mui/material";
 
-const CartSummary = ({ cartItems, cartTotal, totalSelectedUnits }) => {
+const CartSummary = ({
+  cartItems,
+  cartTotal,
+  totalSelectedUnits,
+  onOrder,
+  onClearAll,
+  isOrdering,
+  orderError,
+  orderSuccess,
+}) => {
   return (
     <Paper
       elevation={2}
@@ -65,6 +75,18 @@ const CartSummary = ({ cartItems, cartTotal, totalSelectedUnits }) => {
         </Stack>
       )}
 
+      {orderError && (
+        <Alert severity="error" sx={{ mt: 2 }}>
+          {orderError}
+        </Alert>
+      )}
+
+      {orderSuccess && (
+        <Alert severity="success" sx={{ mt: 2 }}>
+          Order saved successfully.
+        </Alert>
+      )}
+
       <Divider sx={{ my: 3 }} />
 
       <Box
@@ -81,6 +103,36 @@ const CartSummary = ({ cartItems, cartTotal, totalSelectedUnits }) => {
           ${cartTotal.toLocaleString()}
         </Typography>
       </Box>
+
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: 3 }}>
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={onClearAll}
+          disabled={cartItems.length === 0 || isOrdering}
+          sx={{
+            textTransform: "none",
+            fontWeight: 700,
+            py: 1.2,
+          }}
+        >
+          Clear All
+        </Button>
+
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={onOrder}
+          disabled={cartItems.length === 0 || isOrdering}
+          sx={{
+            textTransform: "none",
+            fontWeight: 700,
+            py: 1.2,
+          }}
+        >
+          {isOrdering ? "Saving Order..." : "Order"}
+        </Button>
+      </Stack>
     </Paper>
   );
 };
