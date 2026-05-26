@@ -32,15 +32,30 @@ const CustomerProductCard = ({
         overflow: "hidden",
       }}
     >
-      {product[PRODUCTS_FIELDS.IMG_URL] && (
-        <CardMedia
-          component="img"
-          height="180"
-          image={product[PRODUCTS_FIELDS.IMG_URL]}
-          alt={product[PRODUCTS_FIELDS.NAME]}
-          sx={{ objectFit: "cover" }}
-        />
-      )}
+      <Box
+        sx={{
+          width: "100%",
+          aspectRatio: "4 / 3",
+          overflow: "hidden",
+          backgroundColor: "#f4f6fb",
+          flexShrink: 0,
+        }}
+      >
+        {product[PRODUCTS_FIELDS.IMG_URL] ? (
+          <CardMedia
+            component="img"
+            image={product[PRODUCTS_FIELDS.IMG_URL]}
+            alt={product[PRODUCTS_FIELDS.NAME]}
+            sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+              display: "block",
+            }}
+          />
+        ) : null}
+      </Box>
 
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
         <Typography
