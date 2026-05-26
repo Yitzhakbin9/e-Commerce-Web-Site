@@ -6,6 +6,7 @@ import {
   CATEGORY_FIELDS,
   PRODUCTS_FIELDS,
 } from "../../Constants/fields.js";
+import CartSummary from "./CartSummary.jsx";
 import CustomerProductCard from "./CustomerProductCard.jsx";
 import ProductsCategoryFilter from "./ProductsCategoryFilter.jsx";
 import ProductsFilterBar from "./ProductsFilterBar.jsx";
@@ -47,6 +48,28 @@ const CustomersProducts = () => {
 
     return matchesSearch && matchesCategory;
   });
+
+  const cartItems = products
+    .filter((product) => Number(selectedQuantities[product.id] ?? 0) > 0)
+    .map((product) => {
+      const quantity = Number(selectedQuantities[product.id] ?? 0);
+      const price = Number(product[PRODUCTS_FIELDS.PRICE] ?? 0);
+
+      return {
+        id: product.id,
+        name: product[PRODUCTS_FIELDS.NAME],
+        quantity,
+        price,
+        total: quantity * price,
+      };
+    });
+
+  const cartTotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+
+  const totalSelectedUnits = cartItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0,
+  );
 
   const updateProductQuantity = (productId, delta, stockQty) => {
     setSelectedQuantities((currentQuantities) => {
@@ -93,16 +116,28 @@ const CustomersProducts = () => {
         </Box>
       </Stack>
 
-      <Grid container spacing={3}>
-        {filteredProducts.map((product) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-            <CustomerProductCard
-              product={product}
-              selectedQty={Number(selectedQuantities[product.id] ?? 0)}
-              onQuantityChange={updateProductQuantity}
-            />
+      <Grid container spacing={3} alignItems="stretch">
+        <Grid item xs={12} md={4}>
+          <CartSummary
+            cartItems={cartItems}
+            cartTotal={cartTotal}
+            totalSelectedUnits={totalSelectedUnits}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={8}>
+          <Grid container spacing={3}>
+            {filteredProducts.map((product) => (
+              <Grid item xs={12} sm={6} xl={4} key={product.id}>
+                <CustomerProductCard
+                  product={product}
+                  selectedQty={Number(selectedQuantities[product.id] ?? 0)}
+                  onQuantityChange={updateProductQuantity}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
+        </Grid>
       </Grid>
     </Box>
   );
