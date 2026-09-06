@@ -1,6 +1,5 @@
 # e-Commerce-Web-Site
 
-Still in development
 
 https://e-commerce-web-site-sooty.vercel.app/login 
 
